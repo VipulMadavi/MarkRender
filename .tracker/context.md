@@ -17,37 +17,40 @@ Markdown → markdown-it → HTML → Styled DOM → Preview
                                     window.print() → PDF
 ```
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | React + Vite |
-| Editor | CodeMirror 6 |
-| Parser | markdown-it + plugins |
-| Math | KaTeX |
-| Code Highlight | Prism.js |
-| YAML | js-yaml |
-| PDF Export | Browser `window.print()` |
-| Styling | Custom CSS (Calm Night theme) |
-| State | React local state + localStorage autosave |
+| Layer          | Technology                                |
+| -------------- | ----------------------------------------- |
+| Framework      | React + Vite                              |
+| Editor         | CodeMirror 6                              |
+| Parser         | markdown-it + plugins                     |
+| Math           | KaTeX                                     |
+| Code Highlight | Prism.js                                  |
+| YAML           | js-yaml                                   |
+| PDF Export     | Browser `window.print()`                  |
+| Styling        | Custom CSS (Calm Night theme)             |
+| State          | React local state + localStorage autosave |
 
 ## Key Design Choices
+
 - **Calm Night theme**: dark purple gradient, `#210635` → `#420D4B` → `#7B337E`
 - **Glassmorphism toolbar**: `backdrop-filter: blur(10px)`
 - **Print CSS**: switches to white bg + black text, hides toolbar/editor
 - **No backend, no database, no accounts**
 
 ## Important Files
-| File | Purpose |
-|------|---------|
-| `docs/prd.md` | Product requirements |
-| `docs/techstack.md` | Technical stack decisions |
-| `docs/design.md` | Design system (colors, typography, layout) |
-| `docs/folderstruc.md` | Folder structure spec |
-| `.tracker/status.md` | Current progress (check this!) |
-| `.tracker/changelog.md` | History of all changes |
-| `.tracker/decisions.md` | Why things were decided |
-| `Phase Plan.md` | The build plan (9 phases, 7-8 hours) |
+
+| File                    | Purpose                                                |
+| ----------------------- | ------------------------------------------------------ |
+| `docs/prd.md`           | Product requirements                                   |
+| `docs/techstack.md`     | Technical stack decisions                              |
+| `docs/design.md`        | Design system (colors, typography, layout)             |
+| `docs/folderstruc.md`   | Folder structure spec                                  |
+| `.tracker/status.md`    | Current progress (check this!)                         |
+| `.tracker/changelog.md` | History of all changes                                 |
+| `.tracker/decisions.md` | Why things were decided                                |
+| `Phase Plan.md`         | The build plan (9 phases, ~9 hours) — **ALL COMPLETE** |
 
 ## MVP Features (v0.1)
+
 1. CodeMirror 6 Markdown editor with syntax highlighting
 2. Live preview (debounced, styled as A4 page)
 3. PDF export via `window.print()`
@@ -63,6 +66,7 @@ Markdown → markdown-it → HTML → Styled DOM → Preview
 13. PWA offline support (stretch)
 
 ## Post-MVP Roadmap (v0.2+)
+
 - Mermaid diagrams
 - Variable font selection
 - Drag & drop image insertion

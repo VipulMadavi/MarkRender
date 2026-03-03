@@ -356,4 +356,40 @@
 
 ---
 
+## 2026-03-04 — Phase 9: Build, Deploy & Smoke Test
+
+### Conversation 10: Phase 9 Execution
+
+**What happened:**
+
+1. Ran `npm run build` — Vite production build completed in 4.78s:
+   - 159 modules transformed
+   - Output: `dist/index.html` (0.46KB), `index.css` (48KB/12.6KB gz), `index.js` (1,169KB/394KB gz)
+   - Chunk size warning for JS bundle (expected: KaTeX + Prism + CodeMirror)
+   - Zero errors
+2. Ran `npx vite preview --port 4174` — served production build locally
+3. Full smoke test in browser — ALL PASS:
+   - Page loads in < 1 second
+   - Typing updates preview live
+   - Heading, bold, inline code, lists, KaTeX math all render correctly
+   - Word count: "20 words · 1 min · ~1 page" updates accurately
+   - "✓ Autosaved" indicator appears after editing
+   - View toggle cycles Split → Editor → Preview → Split
+   - No console errors (only expected KaTeX display-mode warnings)
+4. Updated tracker files (status.md, changelog.md, context.md)
+5. Updated dev-journal.md
+6. Git commit + tag `v0.1.0-web-mvp`
+
+**Key Decisions:**
+
+- Did not pursue PWA stretch goal — keeping scope clean for v0.1 MVP
+- Chunk size warning acknowledged but not addressed — code-splitting is a v0.2 optimization
+- No deployment to Vercel/Netlify in this phase — build verified locally, deployment is environment-dependent
+
+**Issues Found:**
+
+- None. Production build matches dev behavior exactly.
+
+---
+
 > **Update this file**: At the end of every conversation, append a new dated section with what was done, key decisions, and any issues found.
