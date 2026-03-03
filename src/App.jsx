@@ -1,114 +1,156 @@
-import { useState, useRef, useCallback } from "react";
+// App.jsx — Full app layout with view modes, autosave, shortcuts (Phase 7)
+import { useState, useRef, useCallback, useEffect } from "react";
 import { renderMarkdown } from "./markdown/parser";
 import { getStats } from "./utils/wordCount";
+import { loadContent } from "./utils/storage";
+import { useAutosave } from "./hooks/useAutosave";
+import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import Editor from "./components/Editor";
 import Preview from "./components/Preview";
 import ErrorBoundary from "./components/ErrorBoundary";
-import PrintSettings from "./components/PrintSettings";
+import Toolbar from "./components/Toolbar";
 
-const defaultMarkdown = `---
-title: MarkRender Test
-author: Student Dev
+// ── Default content (shown when nothing is in localStorage) ──
+const DEFAULT_MARKDOWN = `---
+title: Welcome to MarkRender
+author: You
 ---
 
-# Pipeline Verification
+# Welcome to MarkRender ✨
 
-This is a **test** of the rendering pipeline.
+Write Markdown on the left, see a live preview on the right.
+Export to PDF with the **Export** button — or press \`Ctrl+Shift+E\`.
 
-## 1. Math
+## Features
+
+| Feature | Shortcut |
+|---------|----------|
+| Save | \`Ctrl+S\` |
+| Export PDF | \`Ctrl+Shift+E\` |
+| Toggle View | \`Ctrl+Shift+V\` |
+| Focus Editor | \`Ctrl+/\` |
+
+## Math
+
 Inline: $E = mc^2$
+
 Block:
 $$
-\\\\int_{0}^{\\\\infty} e^{-x^2} dx = \\\\frac{\\\\sqrt{\\\\pi}}{2}
+\\int_{0}^{\\infty} e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}
 $$
 
-## 2. Code
+## Code
+
 \`\`\`javascript
 function greet(name) {
-  console.log("Hello, " + name + "!");
-  return { status: "ok", timestamp: Date.now() };
+  return \`Hello, \${name}!\`;
 }
 \`\`\`
 
-## 3. Table
-| Feature | Status |
-|---|---|
-| Frontmatter | ✅ |
-| Math | ✅ |
-| Highlighting | ✅ |
-| CodeMirror 6 | ✅ |
-| Live Preview | ✅ |
-| Error Boundary | ✅ |
-| PDF Export | ✅ |
-
-## 4. Lists
-- Item one
-- Item two
-  - Nested item
-- Item three
-
-> **Note:** This is a blockquote with **bold** and *italic* text.
-
-## 5. XSS Test
-<script>alert('xss')</script>
+> Autosave kicks in **2 seconds** after you stop typing. Your work is safe. 🔒
 `;
 
+// ── View mode cycle ──
+const VIEW_CYCLE = ["split", "editor", "preview"];
+
 function App() {
-  const [markdown, setMarkdown] = useState(defaultMarkdown);
+  // ── Restore from localStorage or use default ──
+  const [markdown, setMarkdown] = useState(() => {
+    return loadContent() ?? DEFAULT_MARKDOWN;
+  });
+
+  // ── View mode: 'split' | 'editor' | 'preview' ──
+  const [viewMode, setViewMode] = useState("split");
+
+  // ── Export panel ──
   const [showPrintSettings, setShowPrintSettings] = useState(false);
+
   const editorRef = useRef(null);
 
+  // ── Derived state ──
   const { html, metadata } = renderMarkdown(markdown);
   const stats = getStats(markdown);
   const isEmpty = markdown.trim().length === 0;
 
+  // ── Autosave hook ──
+  const { lastSaved, triggerSave } = useAutosave(markdown);
+
+  // ── Editor change handler ──
   const handleChange = useCallback((newContent) => {
     setMarkdown(newContent);
   }, []);
 
-  const togglePrintSettings = useCallback(() => {
+  // ── View mode toggle (cycles: split → editor → preview → split) ──
+  const handleToggleView = useCallback(() => {
+    setViewMode((prev) => {
+      const idx = VIEW_CYCLE.indexOf(prev);
+      return VIEW_CYCLE[(idx + 1) % VIEW_CYCLE.length];
+    });
+  }, []);
+
+  // ── Export panel handlers ──
+  const handleToggleExport = useCallback(() => {
     setShowPrintSettings((prev) => !prev);
   }, []);
 
-  const closePrintSettings = useCallback(() => {
+  const handleCloseExport = useCallback(() => {
     setShowPrintSettings(false);
   }, []);
 
+  // ── Focus editor handler ──
+  const handleFocusEditor = useCallback(() => {
+    editorRef.current?.focus();
+    // If not visible in current view mode, switch to split/editor
+    if (viewMode === "preview") {
+      setViewMode("split");
+    }
+  }, [viewMode]);
+
+  // ── Close all modals (Escape) ──
+  const handleCloseModals = useCallback(() => {
+    setShowPrintSettings(false);
+  }, []);
+
+  // ── Keyboard shortcuts ──
+  useKeyboardShortcuts({
+    triggerSave,
+    openExport: handleToggleExport,
+    toggleView: handleToggleView,
+    focusEditor: handleFocusEditor,
+    closeModals: handleCloseModals,
+  });
+
+  // ── Update document title from frontmatter ──
+  useEffect(() => {
+    document.title = metadata.title
+      ? `${metadata.title} — MarkRender`
+      : "MarkRender";
+  }, [metadata.title]);
+
+  // ── Compute CSS classes for the main content area ──
+  const mainClass = `main-content view-${viewMode}`;
+
   return (
     <div className="app">
-      <div className="toolbar">
-        <span className="toolbar-brand">{metadata.title || "MarkRender"}</span>
-        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-          <button className="btn">Toggle View</button>
-          <button className="btn">Focus</button>
-          <div className="print-settings-wrapper">
-            <button className="btn btn-export" onClick={togglePrintSettings}>
-              📄 Export
-            </button>
-            <PrintSettings
-              metadata={metadata}
-              isOpen={showPrintSettings}
-              onClose={closePrintSettings}
-            />
-          </div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <span className="word-count">
-            {stats.words} words · {stats.readingTime} min · ~{stats.pages} pages
-          </span>
-          <span className="autosave-indicator">Autosaved ✓</span>
-        </div>
-      </div>
+      <Toolbar
+        title={metadata.title || null}
+        metadata={metadata}
+        stats={stats}
+        viewMode={viewMode}
+        onToggleView={handleToggleView}
+        showPrintSettings={showPrintSettings}
+        onToggleExport={handleToggleExport}
+        onCloseExport={handleCloseExport}
+        lastSaved={lastSaved}
+      />
 
-      <div className="main-content">
-        <div className="editor-panel">
-          <Editor
-            ref={editorRef}
-            value={defaultMarkdown}
-            onChange={handleChange}
-          />
+      <div className={mainClass}>
+        {/* ── Editor panel ── */}
+        <div className="editor-panel" aria-label="Markdown editor">
+          <Editor ref={editorRef} value={markdown} onChange={handleChange} />
         </div>
 
+        {/* ── Preview panel ── */}
         <ErrorBoundary>
           <Preview html={html} isEmpty={isEmpty} />
         </ErrorBoundary>
