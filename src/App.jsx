@@ -11,46 +11,7 @@ import Preview from "./components/Preview";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Toolbar from "./components/Toolbar";
 
-// ── Default content (shown when nothing is in localStorage) ──
-const DEFAULT_MARKDOWN = `---
-title: Welcome to MarkRender
-author: You
----
-
-# Welcome to MarkRender ✨
-
-Write Markdown on the left, see a live preview on the right.
-Export to PDF with the **Export** button — or press \`Ctrl+Shift+E\`.
-
-## Features
-
-| Feature | Shortcut |
-|---------|----------|
-| Save | \`Ctrl+S\` |
-| Export PDF | \`Ctrl+Shift+E\` |
-| Toggle View | \`Ctrl+Shift+V\` |
-| Focus Editor | \`Ctrl+/\` |
-| Focus Mode | \`F11\` |
-
-## Math
-
-Inline: $E = mc^2$
-
-Block:
-$$
-\\\\int_{0}^{\\\\infty} e^{-x^2} dx = \\\\frac{\\\\sqrt{\\\\pi}}{2}
-$$
-
-## Code
-
-\\\`\\\`\\\`javascript
-function greet(name) {
-  return \\\`Hello, \\\${name}!\\\`;
-}
-\\\`\\\`\\\`
-
-> Autosave kicks in **2 seconds** after you stop typing. Your work is safe. 🔒
-`;
+import DEFAULT_MARKDOWN from "./content/default.md?raw";
 
 // ── View mode cycle ──
 const VIEW_CYCLE = ["split", "editor", "preview"];

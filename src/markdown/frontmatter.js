@@ -6,7 +6,7 @@ import yaml from "js-yaml";
  * @returns {object} { metadata, content }
  */
 export function parseFrontmatter(text) {
-  const match = text.match(/^---\n([\s\S]*?)\n---/);
+  const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
 
   if (!match) {
     return { metadata: {}, content: text };
