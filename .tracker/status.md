@@ -1,39 +1,45 @@
 # MarkRender — Project Status
 
-> **Last Updated**: 2026-03-03 15:40 IST
-> **Current Phase**: Phase 1 Complete — Ready for Phase 2
-> **Overall Progress**: 1 / 9 phases
+> **Last Updated**: 2026-03-03 16:10 IST
+> **Current Phase**: Phase 2 Complete — Ready for Phase 3
+> **Overall Progress**: 2 / 9 phases
 
 ---
 
 ## Current State
 
-| Item | Status |
-|------|--------|
-| Phase Plan | ✅ Finalized |
-| Docs (PRD, Tech, Design, Folder) | ✅ Updated with new features |
-| Phase 1: Project Scaffolding | ✅ Complete |
-| Phase 2: Design System & Global Styles | ⬜ Not started |
-| Phase 3: Rendering Pipeline | ⬜ Not started |
-| Phase 4: Editor (CodeMirror) | ⬜ Not started |
-| Phase 5: Preview + Error Boundary | ⬜ Not started |
-| Phase 6: PDF Export | ⬜ Not started |
-| Phase 7: App Layout & Toolbar | ⬜ Not started |
-| Phase 8: Polish & Edge Cases | ⬜ Not started |
-| Phase 9: Build & Deploy | ⬜ Not started |
+| Item                                   | Status                       |
+| -------------------------------------- | ---------------------------- |
+| Phase Plan                             | ✅ Finalized                 |
+| Docs (PRD, Tech, Design, Folder)       | ✅ Updated with new features |
+| Phase 1: Project Scaffolding           | ✅ Complete                  |
+| Phase 2: Design System & Global Styles | ✅ Complete                  |
+| Phase 3: Rendering Pipeline            | ⬜ Not started               |
+| Phase 4: Editor (CodeMirror)           | ⬜ Not started               |
+| Phase 5: Preview + Error Boundary      | ⬜ Not started               |
+| Phase 6: PDF Export                    | ⬜ Not started               |
+| Phase 7: App Layout & Toolbar          | ⬜ Not started               |
+| Phase 8: Polish & Edge Cases           | ⬜ Not started               |
+| Phase 9: Build & Deploy                | ⬜ Not started               |
 
-## Phase 1 Verification
+## Phase 2 Verification
 
-- [x] `npm run dev` — no errors, blank React page visible
-- [x] All dependencies installed (markdown-it, KaTeX, Prism.js, js-yaml, CodeMirror 6, ESLint, Prettier)
-- [x] Folder structure matches Phase Plan layout (22 files across 5 directories)
-- [x] No boilerplate files remaining (App.css, assets/ removed)
-- [x] `base: './'` set in vite.config.js
-- [x] Git commit: `b391b6b` — `phase-1: vite + react scaffolding, all deps installed, folder structure`
+- [x] Gradient background visible (linear-gradient 135deg, dark purple tones)
+- [x] CSS custom properties accessible in devtools (--bg-primary, --accent, --text-body, etc.)
+- [x] Google Fonts load — Inter for body, JetBrains Mono for code
+- [x] Toolbar renders with glassmorphism (backdrop-filter: blur(10px))
+- [x] Editor panel (left) + Preview panel (right) side-by-side layout
+- [x] Preview typography: all 6 heading levels, code blocks, blockquotes, tables, lists, hr
+- [x] Button styles with accent color and hover effects
+- [x] Word count + autosave indicator displayed in toolbar
+- [x] Custom scrollbar + selection styles applied
+- [x] Print CSS: @media print skeleton in place (hides toolbar/editor, white bg)
+- [x] No console errors
+- [x] Git commit: `f2f23fa` — `phase-2: calm night design system — base, editor, preview, print CSS`
 
 ## Blocked On
 
-Nothing — ready to start Phase 2.
+Nothing — ready to start Phase 3.
 
 ## Known Issues
 
