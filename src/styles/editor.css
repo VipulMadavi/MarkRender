@@ -204,3 +204,10 @@
   color: rgba(237, 234, 244, 0.6) !important;
   font-style: italic;
 }
+
+/* ── Placeholder ── */
+.cm-placeholder {
+  color: var(--text-dim) !important;
+  font-style: italic;
+  font-family: var(--font-mono);
+}

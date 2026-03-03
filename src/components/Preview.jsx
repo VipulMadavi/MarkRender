@@ -1,16 +1,28 @@
-// Preview.jsx — Live Markdown preview panel (Phase 5)
-import { useRef, useEffect } from "react";
+// Preview.jsx — Live Markdown preview panel (Phase 5 + Phase 8 scroll sync)
+import { useRef, useEffect, forwardRef, useImperativeHandle } from "react";
 
 /**
  * Preview component — renders parsed HTML in a styled panel.
  *
  * @prop {string} html — rendered HTML from the markdown pipeline
  * @prop {boolean} isEmpty — whether the source markdown is empty
+ * @ref  exposes { getElement() } for scroll sync
  */
-function Preview({ html, isEmpty }) {
+const Preview = forwardRef(function Preview({ html, isEmpty }, ref) {
   const containerRef = useRef(null);
   const prevScrollRef = useRef(0);
   const isUserScrollingRef = useRef(false);
+
+  // Expose the DOM element for scroll sync
+  useImperativeHandle(
+    ref,
+    () => ({
+      getElement() {
+        return containerRef.current;
+      },
+    }),
+    [],
+  );
 
   // Preserve scroll position across re-renders triggered by typing,
   // but reset to top when content is cleared or loaded fresh.
@@ -55,6 +67,6 @@ function Preview({ html, isEmpty }) {
       />
     </div>
   );
-}
+});
 
 export default Preview;

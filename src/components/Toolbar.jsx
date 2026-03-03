@@ -1,4 +1,4 @@
-// Toolbar.jsx — App toolbar with view toggle, export, word count (Phase 7)
+// Toolbar.jsx — App toolbar with view toggle, focus mode, export, word count (Phase 7 + Phase 8)
 import { memo } from "react";
 import PrintSettings from "./PrintSettings";
 
@@ -6,7 +6,7 @@ import PrintSettings from "./PrintSettings";
  * Main application toolbar.
  *
  * Layout:
- *   [MarkRender / title]  |  [Toggle ▸] [Export ▼]  |  stats  Autosaved ✓
+ *   [MarkRender / title]  |  [Toggle ▸] [Focus] [Export ▼]  |  stats  Autosaved ✓
  *
  * @prop {string}   title             — document title from YAML frontmatter
  * @prop {object}   metadata          — full parsed frontmatter metadata
@@ -17,6 +17,8 @@ import PrintSettings from "./PrintSettings";
  * @prop {function} onToggleExport    — opens/closes export panel
  * @prop {function} onCloseExport     — closes export panel
  * @prop {Date|null} lastSaved        — timestamp of last autosave
+ * @prop {boolean}  focusMode         — whether focus/zen mode is active
+ * @prop {function} onToggleFocusMode — toggles focus/zen mode
  */
 function Toolbar({
   title,
@@ -28,6 +30,8 @@ function Toolbar({
   onToggleExport,
   onCloseExport,
   lastSaved,
+  focusMode,
+  onToggleFocusMode,
 }) {
   // Human-readable view mode label for the toggle button
   const viewLabels = {
@@ -35,11 +39,6 @@ function Toolbar({
     editor: "Editor",
     preview: "Preview",
   };
-
-  // Format the autosave timestamp
-  const savedLabel = lastSaved
-    ? `Autosaved ${lastSaved.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
-    : "Not saved yet";
 
   return (
     <div className="toolbar" role="banner">
@@ -130,6 +129,49 @@ function Toolbar({
               Preview
             </>
           )}
+        </button>
+
+        {/* ── Focus / Zen mode button ── */}
+        <button
+          id="btn-focus-mode"
+          className={`btn btn-ghost${focusMode ? " btn-focus-active" : ""}`}
+          onClick={onToggleFocusMode}
+          title="Focus mode (F11)"
+          aria-label={focusMode ? "Exit focus mode" : "Enter focus mode"}
+          aria-pressed={focusMode}
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            aria-hidden="true"
+          >
+            {focusMode ? (
+              /* contract icon */
+              <>
+                <path
+                  d="M5 1v3H1M9 1v3h4M5 13v-3H1M9 13v-3h4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </>
+            ) : (
+              /* expand icon */
+              <>
+                <path
+                  d="M1 5V1h4M13 5V1H9M1 9v4h4M13 9v4H9"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </>
+            )}
+          </svg>
+          {focusMode ? "Exit" : "Focus"}
         </button>
 
         {/* ── Export button + dropdown ── */}

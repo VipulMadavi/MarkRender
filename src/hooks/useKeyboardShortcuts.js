@@ -1,4 +1,4 @@
-// useKeyboardShortcuts.js — Global keyboard shortcut handler (Phase 7)
+// useKeyboardShortcuts.js — Global keyboard shortcut handler (Phase 7 + Phase 8)
 import { useEffect } from "react";
 
 /**
@@ -9,9 +9,10 @@ import { useEffect } from "react";
  *   Ctrl+Shift+E      → openExport()
  *   Ctrl+Shift+V      → toggleView()
  *   Ctrl+/            → focusEditor()
- *   Escape            → closeModals()
+ *   F11               → toggleFocusMode()
+ *   Escape            → closeModals() (also exits focus mode)
  *
- * @param {{ triggerSave, openExport, toggleView, focusEditor, closeModals }} handlers
+ * @param {{ triggerSave, openExport, toggleView, focusEditor, closeModals, toggleFocusMode }} handlers
  */
 export function useKeyboardShortcuts({
   triggerSave,
@@ -19,6 +20,7 @@ export function useKeyboardShortcuts({
   toggleView,
   focusEditor,
   closeModals,
+  toggleFocusMode,
 }) {
   useEffect(() => {
     function handleKeyDown(e) {
@@ -52,7 +54,14 @@ export function useKeyboardShortcuts({
         return;
       }
 
-      // Escape — close modals
+      // F11 — toggle focus / zen mode
+      if (e.key === "F11") {
+        e.preventDefault();
+        toggleFocusMode?.();
+        return;
+      }
+
+      // Escape — close modals (+ exit focus mode via closeModals)
       if (e.key === "Escape") {
         closeModals?.();
         return;
@@ -61,5 +70,12 @@ export function useKeyboardShortcuts({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [triggerSave, openExport, toggleView, focusEditor, closeModals]);
+  }, [
+    triggerSave,
+    openExport,
+    toggleView,
+    focusEditor,
+    closeModals,
+    toggleFocusMode,
+  ]);
 }

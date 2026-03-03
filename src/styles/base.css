@@ -131,6 +131,7 @@ body {
   background: var(--bg-secondary);
   overflow-y: auto;
   border-left: 1px solid rgba(255, 255, 255, 0.05);
+  scroll-behavior: smooth;
 }
 
 /* ── Toolbar Base ── */
@@ -467,4 +468,82 @@ body {
   .word-count {
     display: none;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Focus / Zen Mode
+   ══════════════════════════════════════════════════════════════ */
+
+/* Toolbar slides up and hides */
+.app.focus-mode .toolbar {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease;
+}
+
+/* Main content fills the entire viewport */
+.app.focus-mode .main-content {
+  height: 100vh;
+}
+
+.app.focus-mode .main-content .editor-panel,
+.app.focus-mode .main-content .preview-panel {
+  height: 100vh;
+}
+
+/* In focus mode, only show the editor at full width */
+.app.focus-mode .main-content .editor-panel {
+  flex: 1;
+}
+
+.app.focus-mode .main-content .preview-panel {
+  display: none;
+}
+
+/* Focus-active button highlight */
+.btn-focus-active {
+  color: var(--accent) !important;
+  background: rgba(102, 103, 171, 0.15) !important;
+}
+
+/* ── Focus Hint Overlay ── */
+.focus-hint {
+  position: fixed;
+  bottom: var(--space-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-dim);
+  font-size: var(--font-size-sm);
+  padding: var(--space-s) var(--space-l);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 300;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.focus-hint.focus-hint-visible {
+  opacity: 1;
+}
+
+.focus-hint kbd {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: var(--radius-s);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0 2px;
 }

@@ -1,10 +1,11 @@
-// App.jsx — Full app layout with view modes, autosave, shortcuts (Phase 7)
+// App.jsx — Full app layout with scroll sync, focus mode (Phase 7 + Phase 8)
 import { useState, useRef, useCallback, useEffect } from "react";
 import { renderMarkdown } from "./markdown/parser";
 import { getStats } from "./utils/wordCount";
 import { loadContent } from "./utils/storage";
 import { useAutosave } from "./hooks/useAutosave";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
+import { useScrollSync } from "./hooks/useScrollSync";
 import Editor from "./components/Editor";
 import Preview from "./components/Preview";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -29,6 +30,7 @@ Export to PDF with the **Export** button — or press \`Ctrl+Shift+E\`.
 | Export PDF | \`Ctrl+Shift+E\` |
 | Toggle View | \`Ctrl+Shift+V\` |
 | Focus Editor | \`Ctrl+/\` |
+| Focus Mode | \`F11\` |
 
 ## Math
 
@@ -36,16 +38,16 @@ Inline: $E = mc^2$
 
 Block:
 $$
-\\int_{0}^{\\infty} e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}
+\\\\int_{0}^{\\\\infty} e^{-x^2} dx = \\\\frac{\\\\sqrt{\\\\pi}}{2}
 $$
 
 ## Code
 
-\`\`\`javascript
+\\\`\\\`\\\`javascript
 function greet(name) {
-  return \`Hello, \${name}!\`;
+  return \\\`Hello, \\\${name}!\\\`;
 }
-\`\`\`
+\\\`\\\`\\\`
 
 > Autosave kicks in **2 seconds** after you stop typing. Your work is safe. 🔒
 `;
@@ -65,7 +67,12 @@ function App() {
   // ── Export panel ──
   const [showPrintSettings, setShowPrintSettings] = useState(false);
 
+  // ── Focus / Zen mode ──
+  const [focusMode, setFocusMode] = useState(false);
+  const [showFocusHint, setShowFocusHint] = useState(false);
+
   const editorRef = useRef(null);
+  const previewRef = useRef(null);
 
   // ── Derived state ──
   const { html, metadata } = renderMarkdown(markdown);
@@ -74,6 +81,17 @@ function App() {
 
   // ── Autosave hook ──
   const { lastSaved, triggerSave } = useAutosave(markdown);
+
+  // ── Scroll sync — only active in split view and not in focus mode ──
+  const [previewEl, setPreviewEl] = useState(null);
+
+  useEffect(() => {
+    // Get the DOM element once preview mounts
+    const el = previewRef.current?.getElement?.();
+    setPreviewEl(el || null);
+  });
+
+  useScrollSync(editorRef, previewEl, viewMode === "split" && !focusMode);
 
   // ── Editor change handler ──
   const handleChange = useCallback((newContent) => {
@@ -106,9 +124,24 @@ function App() {
     }
   }, [viewMode]);
 
-  // ── Close all modals (Escape) ──
+  // ── Focus / Zen mode toggle ──
+  const handleToggleFocusMode = useCallback(() => {
+    setFocusMode((prev) => {
+      const entering = !prev;
+      if (entering) {
+        // Show the "Press ESC to exit" hint then fade it after 3s
+        setShowFocusHint(true);
+        setTimeout(() => setShowFocusHint(false), 3000);
+      }
+      return entering;
+    });
+  }, []);
+
+  // ── Close all modals (Escape) — also exits focus mode ──
   const handleCloseModals = useCallback(() => {
     setShowPrintSettings(false);
+    setFocusMode(false);
+    setShowFocusHint(false);
   }, []);
 
   // ── Keyboard shortcuts ──
@@ -118,6 +151,7 @@ function App() {
     toggleView: handleToggleView,
     focusEditor: handleFocusEditor,
     closeModals: handleCloseModals,
+    toggleFocusMode: handleToggleFocusMode,
   });
 
   // ── Update document title from frontmatter ──
@@ -127,11 +161,12 @@ function App() {
       : "MarkRender";
   }, [metadata.title]);
 
-  // ── Compute CSS classes for the main content area ──
+  // ── Compute CSS classes ──
   const mainClass = `main-content view-${viewMode}`;
+  const appClass = `app${focusMode ? " focus-mode" : ""}`;
 
   return (
-    <div className="app">
+    <div className={appClass}>
       <Toolbar
         title={metadata.title || null}
         metadata={metadata}
@@ -142,6 +177,8 @@ function App() {
         onToggleExport={handleToggleExport}
         onCloseExport={handleCloseExport}
         lastSaved={lastSaved}
+        focusMode={focusMode}
+        onToggleFocusMode={handleToggleFocusMode}
       />
 
       <div className={mainClass}>
@@ -152,9 +189,19 @@ function App() {
 
         {/* ── Preview panel ── */}
         <ErrorBoundary>
-          <Preview html={html} isEmpty={isEmpty} />
+          <Preview ref={previewRef} html={html} isEmpty={isEmpty} />
         </ErrorBoundary>
       </div>
+
+      {/* ── Focus mode hint ── */}
+      {focusMode && (
+        <div
+          className={`focus-hint${showFocusHint ? " focus-hint-visible" : ""}`}
+          aria-live="polite"
+        >
+          Press <kbd>ESC</kbd> to exit focus mode
+        </div>
+      )}
     </div>
   );
 }

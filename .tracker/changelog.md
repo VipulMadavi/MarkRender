@@ -297,4 +297,63 @@
 
 ---
 
+## 2026-03-04 — Phase 8: Scroll Sync, Focus Mode & Polish
+
+### Conversation 9: Phase 8 Execution
+
+**What happened:**
+
+1. Implemented `src/hooks/useScrollSync.js`:
+   - Proportional scroll sync between CodeMirror's `scrollDOM` and preview panel
+   - Tracks `scrollTop / scrollHeight` ratio of the actively-scrolled panel
+   - Applies the same ratio to the other panel
+   - Uses a source-lock + 50ms debounce to prevent feedback loops
+   - Passive event listeners for performance
+   - Only active in split view mode (disabled in editor-only, preview-only, or focus mode)
+2. Updated `src/components/Preview.jsx`:
+   - Wrapped in `forwardRef` and exposed `getElement()` via `useImperativeHandle`
+   - Allows scroll sync hook to access the `.preview-panel` DOM node
+3. Implemented Focus / Zen Mode:
+   - New state: `focusMode` + `showFocusHint` in `App.jsx`
+   - Toolbar slides up and disappears (CSS `transform: translateY(-100%)`)
+   - Editor fills 100% viewport height and width, preview hidden
+   - "Press ESC to exit focus mode" hint overlay appears at bottom center, fades after 3s
+   - Toggle via `F11` key or toolbar "Focus" button
+   - `Escape` exits focus mode (and closes any open modals)
+4. Updated `src/components/Toolbar.jsx`:
+   - Added Focus/Zen mode button between view toggle and export
+   - Uses expand/contract SVG icons, highlights when active (`.btn-focus-active`)
+   - New props: `focusMode`, `onToggleFocusMode`
+5. Updated `src/hooks/useKeyboardShortcuts.js`:
+   - Added `F11` → `toggleFocusMode()` shortcut
+   - Added `toggleFocusMode` to handler params
+6. UX Polish:
+   - Added `placeholder("# Start writing Markdown...")` extension to CodeMirror
+   - Styled `.cm-placeholder` (dim, italic) in `editor.css`
+   - Added `scroll-behavior: smooth` on `.preview-panel` in `base.css`
+   - Browser tab title already synced from YAML frontmatter (Phase 7)
+7. Updated `src/styles/base.css`:
+   - Focus mode CSS: `.app.focus-mode .toolbar` (slide-up), `.editor-panel` (full viewport), `.preview-panel` (hidden)
+   - `.btn-focus-active` highlight style
+   - `.focus-hint` overlay + `.focus-hint-visible` + `kbd` styling
+8. Verified all features in browser:
+   - Scroll sync working in split view
+   - Focus mode enters/exits correctly with toolbar animation and hint
+   - Placeholder visible when editor is empty
+   - No console errors
+9. Git commit: `9de4564`
+
+**Key Decisions:**
+
+- Scroll sync uses proportional ratio (`scrollTop / maxScroll`) rather than line-based mapping — simpler, works well for documents of similar visual density
+- Source-lock pattern prevents feedback loops: when one panel triggers a scroll event on the other, the second panel's handler is suppressed
+- Focus mode hides preview entirely (not just the toolbar) to create a true distraction-free writing environment
+- Focus hint uses fixed positioning with `opacity` transition for the 3-second fade — no layout shift
+
+**Issues Found:**
+
+- None.
+
+---
+
 > **Update this file**: At the end of every conversation, append a new dated section with what was done, key decisions, and any issues found.

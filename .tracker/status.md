@@ -1,8 +1,8 @@
 # MarkRender — Project Status
 
-> **Last Updated**: 2026-03-04 00:52 IST
-> **Current Phase**: Phase 7 Complete — Ready for Phase 8
-> **Overall Progress**: 7 / 9 phases
+> **Last Updated**: 2026-03-04 01:25 IST
+> **Current Phase**: Phase 8 Complete — Ready for Phase 9
+> **Overall Progress**: 8 / 9 phases
 
 ---
 
@@ -19,28 +19,27 @@
 | Phase 5: Preview + Error Boundary      | ✅ Complete                  |
 | Phase 6: PDF Export                    | ✅ Complete                  |
 | Phase 7: App Layout & Toolbar          | ✅ Complete                  |
-| Phase 8: Polish & Edge Cases           | ⬜ Not started               |
+| Phase 8: Polish & Edge Cases           | ✅ Complete                  |
 | Phase 9: Build & Deploy                | ⬜ Not started               |
 
-## Phase 7 Verification
+## Phase 8 Verification
 
-- [x] Split view: 50/50 on desktop ✓
-- [x] Toggle cycles: Split → Editor → Preview → Split ✓
-- [x] Word count + reading time display in toolbar ✓
-- [x] Autosave fires after 2s pause → "✓ Autosaved" indicator ✓
-- [x] Page refresh restores content from localStorage ✓
-- [x] `Ctrl+Shift+E` opens export panel ✓
-- [x] `Ctrl+Shift+V` toggles view mode ✓
-- [x] `Ctrl+S` triggers immediate save ✓
-- [x] `Escape` closes export panel ✓
-- [x] Document title syncs from YAML frontmatter ✓
-- [x] Responsive: stacks on mobile width ✓ (CSS rules verified)
+- [x] Scroll sync: editor ↔ preview proportional scroll ✓
+- [x] Focus/Zen mode: F11 or toolbar button → toolbar slides up, editor fills screen ✓
+- [x] Focus hint: "Press ESC to exit" appears, fades after 3s ✓
+- [x] ESC exits focus mode and restores normal layout ✓
+- [x] Placeholder: empty editor shows "# Start writing Markdown..." (dim, italic) ✓
+- [x] smooth scroll-behavior on preview panel ✓
+- [x] Browser tab title: syncs from YAML frontmatter ✓
+- [x] All 6 heading levels: h1–h6 with clear hierarchy ✓ (CSS verified)
+- [x] Broken math → `.math-error` span, export not blocked ✓ (from Phase 3)
+- [x] Unicode + emoji → renders in preview ✓
 - [x] No console errors ✓
-- [x] Git commit: `02d941e`
+- [x] Git commit: `9de4564`
 
 ## Blocked On
 
-Nothing — ready to start Phase 8 (Scroll Sync, Focus Mode & Polish).
+Nothing — ready to start Phase 9 (Build, Deploy & Smoke Test).
 
 ## Known Issues
 

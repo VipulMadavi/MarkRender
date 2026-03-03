@@ -8,6 +8,7 @@ import {
   drawSelection,
   dropCursor,
   keymap,
+  placeholder,
 } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
 import { markdown } from "@codemirror/lang-markdown";
@@ -98,6 +99,9 @@ const Editor = forwardRef(function Editor({ value = "", onChange }, ref) {
         // ── Theme / styling ──
         calmNightTheme,
         EditorView.lineWrapping,
+
+        // ── Placeholder ──
+        placeholder("# Start writing Markdown..."),
 
         // ── Change listener ──
         updateListener,
