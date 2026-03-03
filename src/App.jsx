@@ -2,6 +2,8 @@ import { useState, useRef, useCallback } from "react";
 import { renderMarkdown } from "./markdown/parser";
 import { getStats } from "./utils/wordCount";
 import Editor from "./components/Editor";
+import Preview from "./components/Preview";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const defaultMarkdown = `---
 title: MarkRender Test
@@ -16,7 +18,7 @@ This is a **test** of the rendering pipeline.
 Inline: $E = mc^2$
 Block:
 $$
-\\int_{0}^{\\infty} e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}
+\\\\int_{0}^{\\\\infty} e^{-x^2} dx = \\\\frac{\\\\sqrt{\\\\pi}}{2}
 $$
 
 ## 2. Code
@@ -34,6 +36,8 @@ function greet(name) {
 | Math | ✅ |
 | Highlighting | ✅ |
 | CodeMirror 6 | ✅ |
+| Live Preview | ✅ |
+| Error Boundary | ✅ |
 
 ## 4. Lists
 - Item one
@@ -42,6 +46,9 @@ function greet(name) {
 - Item three
 
 > **Note:** This is a blockquote with **bold** and *italic* text.
+
+## 5. XSS Test
+<script>alert('xss')</script>
 `;
 
 function App() {
@@ -50,6 +57,7 @@ function App() {
 
   const { html, metadata } = renderMarkdown(markdown);
   const stats = getStats(markdown);
+  const isEmpty = markdown.trim().length === 0;
 
   const handleChange = useCallback((newContent) => {
     setMarkdown(newContent);
@@ -81,12 +89,9 @@ function App() {
           />
         </div>
 
-        <div className="preview-panel">
-          <div
-            className="preview-page"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
-        </div>
+        <ErrorBoundary>
+          <Preview html={html} isEmpty={isEmpty} />
+        </ErrorBoundary>
       </div>
     </div>
   );
