@@ -126,4 +126,38 @@
 
 ---
 
+## 2026-03-04 — Phase 4: Editor Component (CodeMirror 6)
+
+### Conversation 5: Phase 4 Execution
+
+**What happened:**
+
+1. Implemented `src/components/Editor.jsx` with CodeMirror 6:
+   - `EditorView` + `EditorState` with full extension stack
+   - Extensions: `markdown()` lang, `lineNumbers()`, `highlightActiveLine()`, `bracketMatching()`, `history()`, `indentWithTab`, `lineWrapping`
+   - Custom Calm Night theme via `EditorView.theme()` (dark mode, transparent bg)
+   - `onChange` callback fires on every doc change (uses ref pattern to avoid stale closures)
+   - `useImperativeHandle` exposes `setValue(text)`, `focus()`, `getView()` for parent control
+2. Installed missing `@codemirror/commands` package (was not a transitive dep)
+3. Updated `App.jsx` to wire Editor component with live preview:
+   - Editor `onChange` → `setMarkdown` → re-render preview via `renderMarkdown()`
+   - Word count, reading time, title all update reactively
+4. Verified in browser:
+   - Calm Night colors, Markdown syntax highlighting (headings, bold, links, code fences)
+   - Line numbers visible, typing fires onChange, preview updates live
+   - Performance: 7,505 words inserted in ~43ms — zero freeze
+5. Git commit: `59a3389`
+
+**Key Decisions:**
+
+- Used ref pattern (`onChangeRef`) to avoid stale closure in the `updateListener` — the listener is created once at mount but always calls the latest `onChange` callback.
+- Added `@codemirror/commands` for `defaultKeymap`, `history`, `historyKeymap`, and `indentWithTab` — essential for undo/redo and tab behavior.
+- Used `syntaxHighlighting(defaultHighlightStyle, { fallback: true })` alongside the CSS-based Calm Night theme for baseline token coloring.
+
+**Issues Found:**
+
+- None.
+
+---
+
 > **Update this file**: At the end of every conversation, append a new dated section with what was done, key decisions, and any issues found.

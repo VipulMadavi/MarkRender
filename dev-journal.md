@@ -12,3 +12,7 @@ phase 2 is done! damn, that calm night theme looks sick. the gradient background
 ### Mar 3, 2026 - 16:30
 
 pipeline is officially live. katex and prism were a bit of a shuffle—had to make sure the math processing happened before the markdown-it render so the parser wouldn't escape the backslashes. frontmatter stripping works like a charm too. it's cool seeing the toolbar title change automatically when i edit the "raw" markdown string in the test code. word count feels accurate enough. next up is the big one: codemirror 6. time to turn that ugly pre tag into a real editor. 💻
+
+### Mar 4, 2026 - 00:03
+
+okay THE EDITOR IS IN. codemirror 6 was honestly not as scary as i thought it'd be. the extension-based API is actually kinda clean once you get the mental model. had to hunt down `@codemirror/commands` cuz it wasn't installed as a transitive dep—wasted like 5 min wondering why `defaultKeymap` was undefined lol. but now we got line numbers, undo/redo, bracket matching, markdown highlighting, the whole thing. and the calm night theme looks SO GOOD in the editor. typed in 7500 words and it didn't even flinch, 43ms dispatch. the live preview updating as i type is super satisfying. the `pre` tag is dead, long live CodeMirror. 🎉
