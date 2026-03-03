@@ -242,6 +242,59 @@
 
 - None.
 
+## 2026-03-04 — Phase 7: App Layout, Toolbar & Features
+
+### Conversation 8: Phase 7 Execution
+
+**What happened:**
+
+1. Implemented `src/utils/storage.js`:
+   - `saveContent()`, `loadContent()`, `clearContent()` with try/catch safety
+   - Uses constant key `markrender_content`
+2. Implemented `src/hooks/useAutosave.js`:
+   - Debounced 2s autosave via `debounce.js` helper
+   - Returns `{ lastSaved, triggerSave }` — `lastSaved` is a `Date` timestamp
+   - Uses ref pattern so debounced fn always captures latest content
+   - `triggerSave()` exposed for `Ctrl+S` immediate save
+3. Implemented `src/hooks/useKeyboardShortcuts.js`:
+   - `Ctrl+S` → triggerSave
+   - `Ctrl+Shift+E` → openExport
+   - `Ctrl+Shift+V` → toggleView
+   - `Ctrl+/` → focusEditor
+   - `Escape` → closeModals
+   - Registered via `window.addEventListener`, cleaned up on unmount
+4. Implemented `src/components/Toolbar.jsx` (full replacement of stub):
+   - Left: brand/document title from YAML frontmatter
+   - Centre: view toggle button (SVG icon, cycles labels) + Export button (wraps PrintSettings)
+   - Right: word count + reading time + pages, autosave indicator with `.autosave-visible` state
+   - Wrapped in `memo()` for render performance
+   - Accessible aria attributes on all interactive elements
+5. Rewrote `src/App.jsx`:
+   - Restored from localStorage on mount; falls back to `DEFAULT_MARKDOWN`
+   - `viewMode` state: `'split' | 'editor' | 'preview'` cycled via toggle
+   - Integrated `useAutosave` and `useKeyboardShortcuts`
+   - `document.title` synced from frontmatter (`title — MarkRender`)
+   - `main-content` gets `view-{mode}` CSS class for panel visibility
+6. Updated `src/styles/base.css`:
+   - `.toolbar-controls` (centre flex group)
+   - `.toolbar-meta` (right flex group)
+   - `.autosave-indicator.autosave-visible` (green + opacity 1)
+   - `.main-content.view-editor`, `.view-preview`, `.view-split` CSS classes
+   - Mobile responsive: hides word count, truncates brand title, stacks panels
+7. Verified all 11 checklist items in browser — all PASS
+8. Git commit: `02d941e`
+
+**Key Decisions:**
+
+- Used `memo()` on Toolbar to avoid re-rendering on every keystroke (stats come from parent state but the component doesn't change structure)
+- Ref pattern in `useAutosave` so the debounced function always has latest `content` without being recreated on every change
+- `Ctrl+Shift+V` shortcut uses uppercase `V` in the key check (`e.key === 'V'`) because shift transforms the key character
+- `view-{mode}` CSS class on `.main-content` drives panel show/hide — keeps view logic entirely in CSS, no inline conditional rendering (avoids CodeMirror unmount/remount on view change)
+
+**Issues Found:**
+
+- None.
+
 ---
 
 > **Update this file**: At the end of every conversation, append a new dated section with what was done, key decisions, and any issues found.
