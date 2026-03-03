@@ -1,1 +1,348 @@
-/* preview.css — Document typography, A4 page simulation (Phase 2) */
+/* preview.css — Document typography, A4 page simulation */
+
+/* ── Preview Page Container ── */
+.preview-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-xl);
+  color: var(--text-body);
+  line-height: var(--line-height);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ── Headings ── */
+.preview-page h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin: var(--space-xl) 0 var(--space-m);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.preview-page h2 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--text-heading);
+  margin: var(--space-l) 0 var(--space-s);
+  line-height: 1.35;
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid rgba(245, 213, 224, 0.1);
+}
+
+.preview-page h3 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text-heading);
+  margin: var(--space-l) 0 var(--space-s);
+  line-height: 1.4;
+}
+
+.preview-page h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin: var(--space-m) 0 var(--space-s);
+}
+
+.preview-page h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  margin: var(--space-m) 0 var(--space-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+}
+
+.preview-page h6 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(245, 213, 224, 0.7);
+  margin: var(--space-m) 0 var(--space-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* First heading — no top margin */
+.preview-page > h1:first-child,
+.preview-page > h2:first-child,
+.preview-page > h3:first-child {
+  margin-top: 0;
+}
+
+/* ── Paragraphs ── */
+.preview-page p {
+  margin: 0 0 var(--space-m);
+}
+
+/* ── Links ── */
+.preview-page a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+}
+
+.preview-page a:hover {
+  color: #8889cc;
+}
+
+/* ── Bold & Italic ── */
+.preview-page strong {
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.preview-page em {
+  font-style: italic;
+  color: #d4b8e0;
+}
+
+/* ── Blockquotes ── */
+.preview-page blockquote {
+  margin: var(--space-m) 0;
+  padding: var(--space-s) var(--space-l);
+  border-left: 3px solid var(--accent);
+  background: rgba(102, 103, 171, 0.08);
+  border-radius: 0 var(--radius-m) var(--radius-m) 0;
+  color: rgba(237, 234, 244, 0.8);
+  font-style: italic;
+}
+
+.preview-page blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Inline Code ── */
+.preview-page code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 2px 6px;
+  border-radius: var(--radius-s);
+  color: #e0d0f0;
+}
+
+/* ── Code Blocks (Prism / fenced) ── */
+.preview-page pre {
+  background: rgba(255, 255, 255, 0.05);
+  padding: var(--space-m);
+  border-radius: var(--radius-l);
+  overflow-x: auto;
+  margin: var(--space-m) 0;
+  box-shadow: 0 0 15px rgba(102, 103, 171, 0.2);
+  line-height: 1.5;
+}
+
+.preview-page pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.85rem;
+  color: var(--text-body);
+}
+
+/* ── Prism.js Token Colors ── */
+.preview-page .token.comment,
+.preview-page .token.prolog,
+.preview-page .token.doctype,
+.preview-page .token.cdata {
+  color: rgba(237, 234, 244, 0.35);
+  font-style: italic;
+}
+
+.preview-page .token.punctuation {
+  color: rgba(237, 234, 244, 0.6);
+}
+
+.preview-page .token.property,
+.preview-page .token.tag,
+.preview-page .token.boolean,
+.preview-page .token.number,
+.preview-page .token.constant,
+.preview-page .token.symbol {
+  color: #f78c6c;
+}
+
+.preview-page .token.selector,
+.preview-page .token.attr-name,
+.preview-page .token.string,
+.preview-page .token.char,
+.preview-page .token.builtin {
+  color: #c3e88d;
+}
+
+.preview-page .token.operator,
+.preview-page .token.entity,
+.preview-page .token.url {
+  color: #89ddff;
+}
+
+.preview-page .token.atrule,
+.preview-page .token.attr-value,
+.preview-page .token.keyword {
+  color: #c792ea;
+}
+
+.preview-page .token.function,
+.preview-page .token.class-name {
+  color: #82aaff;
+}
+
+.preview-page .token.regex,
+.preview-page .token.important,
+.preview-page .token.variable {
+  color: #f07178;
+}
+
+/* ── Lists ── */
+.preview-page ul,
+.preview-page ol {
+  margin: 0 0 var(--space-m);
+  padding-left: var(--space-l);
+}
+
+.preview-page li {
+  margin-bottom: var(--space-xs);
+}
+
+.preview-page li > ul,
+.preview-page li > ol {
+  margin-top: var(--space-xs);
+  margin-bottom: 0;
+}
+
+/* ── Task Lists ── */
+.preview-page li input[type="checkbox"] {
+  margin-right: var(--space-s);
+  accent-color: var(--accent);
+}
+
+/* ── Horizontal Rule ── */
+.preview-page hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(245, 213, 224, 0.2),
+    transparent
+  );
+  margin: var(--space-xl) 0;
+}
+
+/* ── Tables ── */
+.preview-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-m) 0;
+  font-size: var(--font-size-sm);
+}
+
+.preview-page thead th {
+  background: rgba(102, 103, 171, 0.15);
+  color: var(--text-heading);
+  font-weight: 600;
+  text-align: left;
+  padding: var(--space-s) var(--space-m);
+  border-bottom: 2px solid rgba(102, 103, 171, 0.3);
+}
+
+.preview-page tbody td {
+  padding: var(--space-s) var(--space-m);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.preview-page tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.preview-page tbody tr:hover {
+  background: rgba(102, 103, 171, 0.08);
+}
+
+/* ── Images ── */
+.preview-page img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-l);
+  margin: var(--space-m) 0;
+}
+
+/* ── Math (KaTeX) ── */
+.preview-page .katex-display {
+  margin: var(--space-m) 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: var(--space-s) 0;
+}
+
+.preview-page .katex {
+  color: var(--text-body);
+  font-size: 1.1em;
+}
+
+/* ── Math Errors ── */
+.math-error {
+  color: var(--error);
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: var(--radius-s);
+  padding: 2px 6px;
+  font-size: var(--font-size-sm);
+  font-family: var(--font-mono);
+}
+
+/* ── Definition Lists (if supported) ── */
+.preview-page dt {
+  font-weight: 600;
+  color: var(--text-heading);
+  margin-top: var(--space-m);
+}
+
+.preview-page dd {
+  margin-left: var(--space-l);
+  margin-bottom: var(--space-s);
+}
+
+/* ── Footnotes ── */
+.preview-page .footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.preview-page .footnotes {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-m);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: var(--font-size-sm);
+  color: rgba(237, 234, 244, 0.7);
+}
+
+/* ── Error Boundary Fallback ── */
+.error-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgba(237, 234, 244, 0.5);
+  font-size: 1rem;
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+/* ── Empty Preview Placeholder ── */
+.preview-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: var(--font-size-sm);
+  user-select: none;
+}

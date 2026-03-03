@@ -1,1 +1,5 @@
-/* Global styles — will be populated in Phase 2 */
+/* Global entry — imports all style layers in order */
+@import "./styles/base.css";
+@import "./styles/editor.css";
+@import "./styles/preview.css";
+@import "./styles/print.css";

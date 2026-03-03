@@ -1,1 +1,206 @@
-/* editor.css — CodeMirror Calm Night theme overrides (Phase 2) */
+/* editor.css — CodeMirror 6 Calm Night theme overrides */
+
+/* ── Editor Container ── */
+.cm-editor {
+  background: transparent;
+  color: var(--text-body);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  height: 100%;
+}
+
+.cm-editor.cm-focused {
+  outline: none;
+}
+
+/* ── Scroller & Content ── */
+.cm-scroller {
+  overflow: auto;
+  font-family: var(--font-mono);
+}
+
+.cm-content {
+  caret-color: var(--text-heading);
+  padding: var(--space-s) 0;
+}
+
+/* ── Active Line ── */
+.cm-activeLine {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.cm-activeLineGutter {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* ── Selection ── */
+.cm-selectionBackground {
+  background: rgba(102, 103, 171, 0.3) !important;
+}
+
+.cm-editor.cm-focused .cm-selectionBackground {
+  background: rgba(102, 103, 171, 0.35) !important;
+}
+
+/* ── Cursor ── */
+.cm-cursor,
+.cm-dropCursor {
+  border-left-color: var(--text-heading) !important;
+  border-left-width: 2px;
+}
+
+/* ── Line Numbers (Gutter) ── */
+.cm-gutters {
+  background: transparent;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(237, 234, 244, 0.2);
+  font-size: 12px;
+  min-width: 40px;
+}
+
+.cm-gutter.cm-lineNumbers .cm-gutterElement {
+  padding: 0 var(--space-s) 0 var(--space-xs);
+}
+
+/* ── Matching Bracket ── */
+.cm-matchingBracket {
+  background: rgba(102, 103, 171, 0.25) !important;
+  color: var(--text-heading) !important;
+  border-bottom: 1px solid var(--accent);
+}
+
+/* ── Search/Find Match ── */
+.cm-searchMatch {
+  background: rgba(102, 103, 171, 0.25);
+  border-radius: var(--radius-s);
+}
+
+.cm-searchMatch.cm-searchMatch-selected {
+  background: rgba(102, 103, 171, 0.45);
+}
+
+/* ── Tooltip / Autocomplete ── */
+.cm-tooltip {
+  background: var(--bg-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-m);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  color: var(--text-body);
+}
+
+.cm-tooltip-autocomplete ul li[aria-selected] {
+  background: var(--accent);
+  color: var(--text-body);
+}
+
+/* ── Fold Gutter ── */
+.cm-foldGutter span {
+  color: rgba(237, 234, 244, 0.3);
+  transition: color var(--transition-fast);
+}
+
+.cm-foldGutter span:hover {
+  color: var(--text-body);
+}
+
+/* ── Panels (search panel, etc.) ── */
+.cm-panels {
+  background: var(--bg-primary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-body);
+}
+
+.cm-panels input,
+.cm-panels button {
+  font-family: var(--font-body);
+}
+
+.cm-panels input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-s);
+  color: var(--text-body);
+  padding: 2px 6px;
+}
+
+.cm-panels button {
+  background: var(--accent);
+  color: var(--text-body);
+  border: none;
+  border-radius: var(--radius-s);
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+/* ── Markdown Syntax Token Colors ── */
+.cm-header {
+  color: var(--text-heading) !important;
+  font-weight: 600;
+}
+.cm-header-1 {
+  font-size: 1.4em;
+}
+.cm-header-2 {
+  font-size: 1.2em;
+}
+.cm-header-3 {
+  font-size: 1.1em;
+}
+
+.cm-strong {
+  color: #f5d5e0 !important;
+  font-weight: 600;
+}
+.cm-em {
+  color: #d4b8e0 !important;
+  font-style: italic;
+}
+.cm-strikethrough {
+  text-decoration: line-through;
+  color: rgba(237, 234, 244, 0.5) !important;
+}
+
+.cm-link {
+  color: var(--accent) !important;
+  text-decoration: underline;
+}
+.cm-url {
+  color: rgba(102, 103, 171, 0.7) !important;
+}
+
+.cm-meta {
+  color: rgba(237, 234, 244, 0.4) !important;
+} /* --- frontmatter delimiters */
+.cm-comment {
+  color: rgba(237, 234, 244, 0.35) !important;
+} /* HTML comments, etc. */
+.cm-keyword {
+  color: #c792ea !important;
+}
+.cm-atom {
+  color: #f78c6c !important;
+}
+.cm-number {
+  color: #f78c6c !important;
+}
+.cm-string {
+  color: #c3e88d !important;
+}
+.cm-variableName {
+  color: #82aaff !important;
+}
+
+/* ── Inline Code ── */
+.cm-monospace {
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+/* ── Quote ── */
+.cm-quote {
+  color: rgba(237, 234, 244, 0.6) !important;
+  font-style: italic;
+}
