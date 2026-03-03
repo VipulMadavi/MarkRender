@@ -1,6 +1,8 @@
 # MarkRender — Project Status
 
-> **Overall Progress**: 0 / 9 phases
+> **Last Updated**: 2026-03-03 15:40 IST
+> **Current Phase**: Phase 1 Complete — Ready for Phase 2
+> **Overall Progress**: 1 / 9 phases
 
 ---
 
@@ -8,25 +10,34 @@
 
 | Item | Status |
 |------|--------|
-| Phase Plan | ✅ Updated (Journaling Rule added) |
+| Phase Plan | ✅ Finalized |
 | Docs (PRD, Tech, Design, Folder) | ✅ Updated with new features |
-| Dev Journal | ✅ Initial entry added |
-| Project Scaffolding | ⬜ Not started |
-| Rendering Pipeline | ⬜ Not started |
-| Editor (CodeMirror) | ⬜ Not started |
-| Preview Component | ⬜ Not started |
-| PDF Export | ⬜ Not started |
-| App Layout & Toolbar | ⬜ Not started |
-| Polish & Edge Cases | ⬜ Not started |
-| Build & Deploy | ⬜ Not started |
+| Phase 1: Project Scaffolding | ✅ Complete |
+| Phase 2: Design System & Global Styles | ⬜ Not started |
+| Phase 3: Rendering Pipeline | ⬜ Not started |
+| Phase 4: Editor (CodeMirror) | ⬜ Not started |
+| Phase 5: Preview + Error Boundary | ⬜ Not started |
+| Phase 6: PDF Export | ⬜ Not started |
+| Phase 7: App Layout & Toolbar | ⬜ Not started |
+| Phase 8: Polish & Edge Cases | ⬜ Not started |
+| Phase 9: Build & Deploy | ⬜ Not started |
+
+## Phase 1 Verification
+
+- [x] `npm run dev` — no errors, blank React page visible
+- [x] All dependencies installed (markdown-it, KaTeX, Prism.js, js-yaml, CodeMirror 6, ESLint, Prettier)
+- [x] Folder structure matches Phase Plan layout (22 files across 5 directories)
+- [x] No boilerplate files remaining (App.css, assets/ removed)
+- [x] `base: './'` set in vite.config.js
+- [x] Git commit: `b391b6b` — `phase-1: vite + react scaffolding, all deps installed, folder structure`
 
 ## Blocked On
 
-Nothing — ready to start Phase 1.
+Nothing — ready to start Phase 2.
 
 ## Known Issues
 
-None yet.
+None.
 
 ---
 

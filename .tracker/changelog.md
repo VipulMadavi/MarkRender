@@ -40,6 +40,30 @@
 - Mermaid diagrams deferred to v0.2
 - Version history deferred to v1.0
 
+## 2026-03-03 — Phase 1: Project Scaffolding
+
+### Conversation 2: Phase 1 Execution
+
+**What happened:**
+1. Vite + React project scaffolded via `npx create-vite@latest ./ -- --template react`
+2. All dependencies installed (markdown-it, KaTeX, Prism.js, js-yaml, CodeMirror 6, ESLint, Prettier)
+3. Cleaned Vite boilerplate (removed `App.css`, `src/assets/`, cleared `index.css`)
+4. Set `base: './'` in `vite.config.js`
+5. Created full folder structure with 22 placeholder files across 5 directories:
+   - `src/components/` — Editor, Preview, Toolbar, ErrorBoundary, PrintSettings
+   - `src/markdown/` — parser, math, syntaxHighlight, frontmatter
+   - `src/hooks/` — useAutosave, useKeyboardShortcuts, useScrollSync
+   - `src/styles/` — base, editor, preview, print
+   - `src/utils/` — debounce, wordCount, storage
+6. Verified: `npm run dev` works, page loads, all deps present, no boilerplate remaining
+7. Git commit: `b391b6b`
+
+**Key Decisions:**
+- None new — followed Phase Plan exactly
+
+**Issues Found:**
+- None
+
 ---
 
 > **Update this file**: At the end of every conversation, append a new dated section with what was done, key decisions, and any issues found.
