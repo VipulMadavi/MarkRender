@@ -196,6 +196,147 @@ body {
   box-shadow: none;
 }
 
+/* ── Export Button Accent ── */
+.btn-export {
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    var(--accent-hover) 100%
+  );
+}
+
+.btn-export:hover {
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* ── Print Settings Panel ── */
+.print-settings-wrapper {
+  position: relative;
+}
+
+.print-settings {
+  position: absolute;
+  top: calc(var(--toolbar-height) - 4px);
+  right: 0;
+  width: 300px;
+  background: rgba(33, 6, 53, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 24px rgba(102, 103, 171, 0.15);
+  z-index: 200;
+  animation: print-settings-enter 0.2s ease-out;
+  overflow: hidden;
+}
+
+@keyframes print-settings-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.print-settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-m) var(--space-l);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.print-settings-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  letter-spacing: 0.3px;
+}
+
+.print-settings-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--radius-s);
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
+  line-height: 1;
+}
+
+.print-settings-close:hover {
+  color: var(--text-body);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.print-settings-body {
+  padding: var(--space-m) var(--space-l);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+.print-settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.print-settings-field label {
+  font-size: var(--font-size-xs);
+  color: var(--text-dim);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.print-settings-field select,
+.print-settings-field input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-m);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  padding: var(--space-s) var(--space-m);
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  width: 100%;
+}
+
+.print-settings-field select:focus,
+.print-settings-field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(102, 103, 171, 0.2);
+}
+
+.print-settings-field select option {
+  background: #210635;
+  color: var(--text-body);
+}
+
+.print-settings-field input::placeholder {
+  color: var(--text-dim);
+}
+
+.print-settings-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-s);
+  padding: var(--space-m) var(--space-l);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 /* ── Utility Classes ── */
 .text-dim {
   color: var(--text-dim);

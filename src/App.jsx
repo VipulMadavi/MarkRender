@@ -4,6 +4,7 @@ import { getStats } from "./utils/wordCount";
 import Editor from "./components/Editor";
 import Preview from "./components/Preview";
 import ErrorBoundary from "./components/ErrorBoundary";
+import PrintSettings from "./components/PrintSettings";
 
 const defaultMarkdown = `---
 title: MarkRender Test
@@ -38,6 +39,7 @@ function greet(name) {
 | CodeMirror 6 | ✅ |
 | Live Preview | ✅ |
 | Error Boundary | ✅ |
+| PDF Export | ✅ |
 
 ## 4. Lists
 - Item one
@@ -53,6 +55,7 @@ function greet(name) {
 
 function App() {
   const [markdown, setMarkdown] = useState(defaultMarkdown);
+  const [showPrintSettings, setShowPrintSettings] = useState(false);
   const editorRef = useRef(null);
 
   const { html, metadata } = renderMarkdown(markdown);
@@ -63,14 +66,31 @@ function App() {
     setMarkdown(newContent);
   }, []);
 
+  const togglePrintSettings = useCallback(() => {
+    setShowPrintSettings((prev) => !prev);
+  }, []);
+
+  const closePrintSettings = useCallback(() => {
+    setShowPrintSettings(false);
+  }, []);
+
   return (
     <div className="app">
       <div className="toolbar">
         <span className="toolbar-brand">{metadata.title || "MarkRender"}</span>
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
           <button className="btn">Toggle View</button>
           <button className="btn">Focus</button>
-          <button className="btn">Export PDF</button>
+          <div className="print-settings-wrapper">
+            <button className="btn btn-export" onClick={togglePrintSettings}>
+              📄 Export
+            </button>
+            <PrintSettings
+              metadata={metadata}
+              isOpen={showPrintSettings}
+              onClose={closePrintSettings}
+            />
+          </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <span className="word-count">
