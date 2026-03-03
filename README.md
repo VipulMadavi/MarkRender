@@ -14,27 +14,27 @@
 
 ## 📖 Why does this exist?
 
-So here's the thing - I'm a beginner, and I'm mainly aiming for **Cloud & DevOps** roles. Frontend isn't really my lane. But I kept running into this annoying problem: I take a bunch of technical study notes in Markdown, and then when I want a clean PDF version, the existing tools either look terrible, need an account, or are way too bloated for what I need.
+So here's the thing — I'm a beginner, and I'm mainly aiming for **Cloud & DevOps** roles. Frontend isn't really my lane. But I kept running into this annoying problem: I take a bunch of technical study notes in Markdown, and then when I want a clean PDF version, the existing tools either look terrible, need an account, or are way too bloated for what I need.
 
-So I figured, why not just build one? It started as a "let me just make a quick thing" and turned into a full 9-phase project with a custom design system and everything lol. Since frontend isn't my main focus, I leaned on AI (vibe coding) for a lot of the React boilerplate and CSS styling - but the planning, architecture, debugging, and "wait why is KaTeX eating my backslashes at 1 AM" moments were all me. More on that in the disclaimer below.
+So I figured, why not just build one? It started as a "let me just make a quick thing" and turned into a full 9-phase project with a custom design system and everything lol. Since frontend isn't my main focus, I leaned on AI (vibe coding) for a lot of the React boilerplate and CSS styling — but the planning, architecture, debugging, and "wait why is KaTeX eating my backslashes at 1 AM" moments were all me. More on that in the disclaimer below.
 
 ---
 
 ## 🚀 Features
 
-- ✍️ **CodeMirror 6 Editor** - Syntax-highlighted Markdown editing with line numbers, bracket matching, and line wrapping
-- 👁️ **Live Preview** - Instantly renders your Markdown as you type
-- 🧮 **KaTeX Math** -Full LaTeX math support (inline `$...$` and display `$$...$$`)
-- 🎨 **Prism.js Syntax Highlighting** - Beautiful code blocks with language detection
-- 📄 **PDF Export** - Configurable page size (A4/Letter/A3), margins, and PDF title via `window.print()`
-- 📝 **YAML Frontmatter** - Parse `title`, `author`, `date` from frontmatter blocks
-- 💾 **Autosave** - Debounced save to `localStorage` - never lose your work
-- ⌨️ **Keyboard Shortcuts** - `Ctrl+S` (save), `Ctrl+Shift+V` (toggle view), `Ctrl+Shift+E` (export), and more
-- 📊 **Word Count & Stats** - Words, characters, reading time, and estimated pages in the toolbar
-- 🔄 **Scroll Sync** - Editor and preview scroll together proportionally
-- 🧘 **Focus / Zen Mode** - Hide the toolbar and go distraction-free (`F11` or toolbar button)
-- 🛡️ **Error Boundary** - Graceful fallback UI if something goes wrong in the preview
-- 🌙 **Calm Night Theme** - A custom dark design system with purple gradients, glassmorphism toolbar, and carefully tuned typography
+- ✍️ **CodeMirror 6 Editor** — Syntax-highlighted Markdown editing with line numbers, bracket matching, and line wrapping
+- 👁️ **Live Preview** — Instantly renders your Markdown as you type
+- 🧮 **KaTeX Math** — Full LaTeX math support (inline `$...$` and display `$$...$$`)
+- 🎨 **Prism.js Syntax Highlighting** — Beautiful code blocks with language detection
+- 📄 **PDF Export** — Configurable page size (A4/Letter/A3), margins, and PDF title via `window.print()`
+- 📝 **YAML Frontmatter** — Parse `title`, `author`, `date` from frontmatter blocks
+- 💾 **Autosave** — Debounced save to `localStorage` — never lose your work
+- ⌨️ **Keyboard Shortcuts** — `Ctrl+S` (save), `Ctrl+Shift+V` (toggle view), `Ctrl+Shift+E` (export), and more
+- 📊 **Word Count & Stats** — Words, characters, reading time, and estimated pages in the toolbar
+- 🔄 **Scroll Sync** — Editor and preview scroll together proportionally
+- 🧘 **Focus / Zen Mode** — Hide the toolbar and go distraction-free (`F11` or toolbar button)
+- 🛡️ **Error Boundary** — Graceful fallback UI if something goes wrong in the preview
+- 🌙 **Calm Night Theme** — A custom dark design system with purple gradients, glassmorphism toolbar, and carefully tuned typography
 
 ---
 
@@ -56,18 +56,26 @@ So I figured, why not just build one? It started as a "let me just make a quick 
 
 ## 📚 What I Learned
 
-Honestly didn't expect to learn this much from a "simple" Markdown editor. Here's what stuck:
+Honestly didn't expect to learn this much from a "simple" Markdown editor. The frontend stuff was mostly vibe coded (React, CSS, CodeMirror wiring), but the skills below are ones I actually had to work through and understand — and a lot of them carry over to the Cloud/DevOps path I'm on.
 
-- **React Hooks & Component Architecture** - Managing complex state with `useState`, `useRef`, `useEffect`, `useCallback`, and `useImperativeHandle`. Building reusable components and class-based error boundaries.
-- **CodeMirror 6** - The extension-based API, creating custom themes, wiring up `EditorView` and `EditorState` inside React with refs, and dispatching transactions.
-- **markdown-it Pipeline** - Configuring a Markdown parser with custom fence renderers, integrating third-party processing (KaTeX, Prism) into the pipeline, and handling frontmatter stripping.
-- **KaTeX & LaTeX** - Pre-processing math expressions before parsing, handling render errors gracefully, and understanding how LaTeX maps to HTML.
-- **Prism.js** - Overriding markdown-it's fence renderer to use Prism for syntax highlighting with language detection and fallbacks.
-- **CSS Design Systems** - Building a full design token system with custom properties, creating a dark theme from scratch, glassmorphism effects, and gradient backgrounds.
-- **Print CSS & `@page`** - Learning how `@media print` works, dynamically injecting `@page` rules for page size/margins, and making preview ↔ PDF output consistent.
-- **Browser APIs** - `localStorage` for persistence, `window.print()` for PDF export, `KeyboardEvent` handling for shortcuts, and scroll event management.
-- **Debouncing & Performance** - Implementing debounce utilities, managing scroll sync without feedback loops, and keeping the editor responsive under heavy typing.
-- **Vite Build Tooling** - Project scaffolding, dev server, production builds, and understanding module bundling.
+### Stuff that's actually relevant
+
+- **Git & Version Control** — Structured the whole project around git checkpoints. Every phase ended with a clean commit, so I could roll back if things broke. Basically treated it like a mini CI pipeline — build phase, verify, commit, move on.
+- **Build Tooling & npm** — Setting up Vite from scratch, managing `package.json` dependencies, running dev/build/preview scripts, understanding what the bundler actually does with 159 modules. This is the kind of tooling knowledge that shows up everywhere in DevOps.
+- **Project Planning & Phased Execution** — Broke the whole thing into 9 phases with checklists, trackers, and verify-then-stop rules. Very similar to how you'd plan infrastructure rollouts — don't move to the next step until the current one is confirmed working.
+- **Debugging & Problem Solving** — Tracking down why `defaultKeymap` was undefined (missing transitive dependency), figuring out scroll sync feedback loops, making sure KaTeX processes math _before_ markdown-it escapes the backslashes. These are the kinds of debugging skills that transfer to any stack.
+- **Working with `localStorage` & Browser Storage** — Understanding key-value persistence, debounced writes, and restoring state on page load. Conceptually similar to working with config stores or caches.
+- **YAML Parsing** — Used `js-yaml` to parse frontmatter blocks. YAML is everywhere in DevOps (Kubernetes manifests, CI/CD configs, Ansible playbooks), so understanding how it gets parsed programmatically was a nice bonus.
+- **Understanding Build Outputs** — Analyzing the production bundle (1.17MB total, 394KB gzipped), knowing what contributes to bundle size, and thinking about optimization. Relates to artifact management and deployment awareness.
+
+### Other stuff I picked up along the way
+
+These are more frontend-specific and were mostly handled with AI assistance, but I still had to understand them enough to debug issues and make decisions:
+
+- **React component lifecycle** — How hooks like `useEffect`, `useRef`, and `useCallback` work together, and why you can't just throw state around randomly without things re-rendering
+- **Print CSS & `@page` rules** — How `@media print` works, dynamically injecting page size/margin styles before calling `window.print()`. Kinda niche but was cool to learn
+- **Debouncing & event management** — Preventing scroll sync from creating infinite loops, keeping the editor responsive during fast typing. General performance thinking that applies anywhere
+- **Error handling patterns** — React error boundaries, graceful fallbacks for broken math expressions, making sure one bad input doesn't crash the whole app
 
 ---
 
@@ -157,9 +165,9 @@ MarkRender/
 
 ## ⚠️ Disclaimer
 
-> **Vibe coding alert** 🎶 - This project was partially vibe coded. I used AI to help with a good chunk of the frontend work (React components, CSS styling, boilerplate). I'm not a frontend developer - I'm learning Cloud & DevOps - so AI helped me move faster on the parts that aren't my strength.
+> **Vibe coding alert** 🎶 — This project was partially vibe coded. I used AI to help with a good chunk of the frontend work (React components, CSS styling, boilerplate). I'm not a frontend developer — I'm learning Cloud & DevOps — so AI helped me move faster on the parts that aren't my strength.
 >
-> That said, it wasn't _full_ vibe coding either. The project planning, architecture, phase breakdowns, debugging, and figuring out why things broke at midnight - that was all human effort. The AI was more like a really fast pair programming buddy than an autopilot.
+> That said, it wasn't _full_ vibe coding either. The project planning, architecture, phase breakdowns, debugging, and figuring out why things broke at midnight — that was all human effort. The AI was more like a really fast pair programming buddy than an autopilot.
 >
 > This is a personal learning project. It's not production software and it's not trying to be. I built it to learn, to solve a real problem I had, and to have something to show for it. If you find it useful or want to learn from it, go for it.
 
