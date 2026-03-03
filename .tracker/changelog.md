@@ -98,4 +98,32 @@
 
 ---
 
+## 2026-03-03 — Phase 3: Rendering Pipeline
+
+### Conversation 4: Phase 3 Execution
+
+**What happened:**
+
+1. Implemented core rendering utilities:
+   - `utils/debounce.js`: Performance helper for editor updates.
+   - `utils/wordCount.js`: Logic for words, characters, reading time, and page estimates.
+2. Implemented Markdown plugins:
+   - `markdown/frontmatter.js`: YAML parsing via `js-yaml`.
+   - `markdown/math.js`: Math pre-processing via `katex`.
+   - `markdown/syntaxHighlight.js`: Code highlighting via `prismjs`.
+3. Integrated everything into `markdown/parser.js` using `markdown-it`.
+4. Verified pipeline in `App.jsx` by rendering a complex test string (YAML + Math + Code).
+5. Git commit: `15c2733`
+
+**Key Decisions:**
+
+- Math is pre-processed before Markdown-it to avoid escaping issues with LaTeX symbols like `\` and `_`.
+- Fallback to plain text if Prism doesn't support a requested language.
+
+**Issues Found:**
+
+- None. KaTeX styles needed explicit import in `math.js`.
+
+---
+
 > **Update this file**: At the end of every conversation, append a new dated section with what was done, key decisions, and any issues found.

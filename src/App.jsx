@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { renderMarkdown } from "./markdown/parser";
 import { getStats } from "./utils/wordCount";
+import Editor from "./components/Editor";
 
-const testMarkdown = `---
+const defaultMarkdown = `---
 title: MarkRender Test
 author: Student Dev
 ---
@@ -20,29 +21,39 @@ $$
 
 ## 2. Code
 \`\`\`javascript
-function test() {
-  console.log("Pipeline working!");
+function greet(name) {
+  console.log("Hello, " + name + "!");
+  return { status: "ok", timestamp: Date.now() };
 }
 \`\`\`
 
 ## 3. Table
 | Feature | Status |
 |---|---|
-| Frontmatter | OK |
-| Math | OK |
-| Highlighting | OK |
+| Frontmatter | ✅ |
+| Math | ✅ |
+| Highlighting | ✅ |
+| CodeMirror 6 | ✅ |
+
+## 4. Lists
+- Item one
+- Item two
+  - Nested item
+- Item three
+
+> **Note:** This is a blockquote with **bold** and *italic* text.
 `;
 
 function App() {
-  const { html, metadata } = renderMarkdown(testMarkdown);
-  const stats = getStats(testMarkdown);
+  const [markdown, setMarkdown] = useState(defaultMarkdown);
+  const editorRef = useRef(null);
 
-  useEffect(() => {
-    console.log("--- Pipeline Test Results ---");
-    console.log("Metadata:", metadata);
-    console.log("Stats:", stats);
-    console.log("Generated HTML length:", html.length);
-  }, [html, metadata, stats]);
+  const { html, metadata } = renderMarkdown(markdown);
+  const stats = getStats(markdown);
+
+  const handleChange = useCallback((newContent) => {
+    setMarkdown(newContent);
+  }, []);
 
   return (
     <div className="app">
@@ -63,9 +74,11 @@ function App() {
 
       <div className="main-content">
         <div className="editor-panel">
-          <pre style={{ color: "var(--text-dim)", fontSize: "0.85rem" }}>
-            {testMarkdown}
-          </pre>
+          <Editor
+            ref={editorRef}
+            value={defaultMarkdown}
+            onChange={handleChange}
+          />
         </div>
 
         <div className="preview-panel">

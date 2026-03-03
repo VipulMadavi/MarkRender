@@ -8,3 +8,7 @@ i also added this journal cuz i keep forgetting what i did yesterday and the for
 ### Mar 3, 2026 - 16:15
 
 phase 2 is done! damn, that calm night theme looks sick. the gradient background and that blur on the toolbar... chef's kiss. spent way too much time fiddling with the css colors to get it "just right" but it was worth it. chrome's headless mode was being a pain with the screenshots but i verified the styles via js so we're good. a4 page simulation in the preview looks pretty close to what i want. on to the markdown meat next. 🥩
+
+### Mar 3, 2026 - 16:30
+
+pipeline is officially live. katex and prism were a bit of a shuffle—had to make sure the math processing happened before the markdown-it render so the parser wouldn't escape the backslashes. frontmatter stripping works like a charm too. it's cool seeing the toolbar title change automatically when i edit the "raw" markdown string in the test code. word count feels accurate enough. next up is the big one: codemirror 6. time to turn that ugly pre tag into a real editor. 💻
