@@ -20,3 +20,7 @@ okay THE EDITOR IS IN. codemirror 6 was honestly not as scary as i thought it'd 
 ### Mar 4, 2026 - 00:15
 
 phase 5 done and honestly this one felt quick. the preview component is basically a wrapper around dangerouslySetInnerHTML but with scroll preservation which was the tricky bit—used a ref to track scrollTop so it doesn't jump around when you're typing. the error boundary was fun to build, the fallback UI with the warning icon and "Try Again" button looks surprisingly polished for something you hope users never see lol. threw in an XSS test with a script tag and it just sits there doing nothing, which is exactly what we want. everything renders: math, code, tables, headings. no white screens. vibes are good. onto PDF export next 📄
+
+### Mar 4, 2026 - 00:31
+
+pdf export is in!! the PrintSettings panel turned out really nice honestly—glassmorphism dropdown with the page size, margins, and title fields. the title auto-fills from frontmatter which is a nice touch. the whole `window.print()` approach is kinda hacky but it works—inject a dynamic `@page` style, call print, then yank it back out. the browser print dialog is unavoidable which is annoying but hey, it does the job. the panel has a smooth scale+fade animation on open and close-on-click-outside... feels way more polished than i expected for a "dropdown". 6 down, 3 to go. next one is the BIG one—full app layout with toolbar, autosave, shortcuts, the whole nine yards. gonna be a ride 🎢

@@ -1,8 +1,8 @@
 # MarkRender — Project Status
 
-> **Last Updated**: 2026-03-04 00:16 IST
-> **Current Phase**: Phase 5 Complete — Ready for Phase 6
-> **Overall Progress**: 5 / 9 phases
+> **Last Updated**: 2026-03-04 00:31 IST
+> **Current Phase**: Phase 6 Complete — Ready for Phase 7
+> **Overall Progress**: 6 / 9 phases
 
 ---
 
@@ -17,28 +17,27 @@
 | Phase 3: Rendering Pipeline            | ✅ Complete                  |
 | Phase 4: Editor (CodeMirror)           | ✅ Complete                  |
 | Phase 5: Preview + Error Boundary      | ✅ Complete                  |
-| Phase 6: PDF Export                    | ⬜ Not started               |
+| Phase 6: PDF Export                    | ✅ Complete                  |
 | Phase 7: App Layout & Toolbar          | ⬜ Not started               |
 | Phase 8: Polish & Edge Cases           | ⬜ Not started               |
 | Phase 9: Build & Deploy                | ⬜ Not started               |
 
-## Phase 5 Verification
+## Phase 6 Verification
 
-- [x] `# Hello` renders as `<h1>` with correct color
-- [x] Math renders as KaTeX, not raw LaTeX
-- [x] Code blocks show Prism syntax colors
-- [x] Table renders with borders
-- [x] `<script>alert('xss')</script>` in Markdown → does NOT execute
-- [x] Force a render error → ErrorBoundary shows fallback (not white screen)
-- [x] "Try Again" button resets ErrorBoundary and restores preview
-- [x] Scroll position preserved on typing updates
-- [x] Empty content shows placeholder text
+- [x] Export → print dialog opens (via `window.print()`)
+- [x] PDF filename matches YAML title (dynamic `document.title` set)
+- [x] Switching page size changes PDF dimensions (A4 / Letter / A3 via dynamic `@page`)
+- [x] PDF: no toolbar, no editor, only preview content (print.css hides chrome)
+- [x] PDF: white bg, black text, correct margins (finalized in print.css)
+- [x] PrintSettings panel: auto-fills title from frontmatter metadata
+- [x] PrintSettings panel: Cancel and ✕ both close the panel
+- [x] PrintSettings panel: glassmorphism styling matches Calm Night theme
 - [x] No console errors
-- [x] Git commit: `d31a030`
+- [x] Git commit: `4a28c41`
 
 ## Blocked On
 
-Nothing — ready to start Phase 6 (PDF Export + Print Settings).
+Nothing — ready to start Phase 7 (App Layout, Toolbar & Features).
 
 ## Known Issues
 

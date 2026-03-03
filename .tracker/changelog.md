@@ -202,4 +202,46 @@
 
 ---
 
+## 2026-03-04 — Phase 6: PDF Export + Print Settings
+
+### Conversation 7: Phase 6 Execution
+
+**What happened:**
+
+1. Implemented `src/components/PrintSettings.jsx`:
+   - Dropdown panel with glassmorphism styling, animated entry
+   - Page size selector (A4 / Letter / A3)
+   - Margins selector (Normal / Narrow / Wide)
+   - PDF title input (auto-filled from YAML `title` frontmatter)
+   - Export flow: sets `document.title` → injects dynamic `@page` CSS → calls `window.print()` → cleans up
+   - Click-outside and Escape key close the panel
+2. Updated `src/styles/base.css`:
+   - Added `.print-settings` panel styles (glassmorphism, animation, dark form controls)
+   - Added `.btn-export` gradient accent style
+   - Added `.print-settings-field` select/input styles matching Calm Night theme
+3. Updated `src/App.jsx`:
+   - Added `showPrintSettings` state and toggle/close handlers
+   - Wired Export button to toggle the PrintSettings dropdown
+   - Wrapped PrintSettings in `.print-settings-wrapper` for absolute positioning
+   - Added "PDF Export ✅" to default content table
+4. `print.css` was already finalized in Phase 2 — no changes needed
+5. Verified in browser:
+   - Export button visible with gradient styling
+   - Panel opens with all fields, title auto-filled as "MarkRender Test"
+   - Cancel and ✕ both close the panel
+   - No console errors
+6. Git commit: `4a28c41`
+
+**Key Decisions:**
+
+- Used absolute positioning relative to `.print-settings-wrapper` rather than a modal overlay — keeps the export panel feeling lightweight and contextual.
+- Dynamic `@page` CSS injected/removed around `window.print()` call so page size/margin changes don't persist.
+- Print settings panel auto-closes after export to avoid stale state.
+
+**Issues Found:**
+
+- None.
+
+---
+
 > **Update this file**: At the end of every conversation, append a new dated section with what was done, key decisions, and any issues found.
