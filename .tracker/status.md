@@ -1,8 +1,8 @@
 # MarkRender — Project Status
 
-> **Last Updated**: 2026-03-04 00:04 IST
-> **Current Phase**: Phase 4 Complete — Ready for Phase 5
-> **Overall Progress**: 4 / 9 phases
+> **Last Updated**: 2026-03-04 00:16 IST
+> **Current Phase**: Phase 5 Complete — Ready for Phase 6
+> **Overall Progress**: 5 / 9 phases
 
 ---
 
@@ -16,27 +16,29 @@
 | Phase 2: Design System & Global Styles | ✅ Complete                  |
 | Phase 3: Rendering Pipeline            | ✅ Complete                  |
 | Phase 4: Editor (CodeMirror)           | ✅ Complete                  |
-| Phase 5: Preview + Error Boundary      | ⬜ Not started               |
+| Phase 5: Preview + Error Boundary      | ✅ Complete                  |
 | Phase 6: PDF Export                    | ⬜ Not started               |
 | Phase 7: App Layout & Toolbar          | ⬜ Not started               |
 | Phase 8: Polish & Edge Cases           | ⬜ Not started               |
 | Phase 9: Build & Deploy                | ⬜ Not started               |
 
-## Phase 4 Verification
+## Phase 5 Verification
 
-- [x] CodeMirror renders with Calm Night colors
-- [x] Markdown headings/bold/links highlighted
-- [x] Line numbers visible
-- [x] Typing fires `onChange` — preview updates in real time
-- [x] Paste 5,000 words — no freeze (7,505 words inserted in ~43ms)
-- [x] Tab key behavior: works as expected (indentWithTab extension)
-- [x] Toolbar title populated from YAML frontmatter metadata
-- [x] Word count updates dynamically on every keystroke
-- [x] Git commit: `59a3389`
+- [x] `# Hello` renders as `<h1>` with correct color
+- [x] Math renders as KaTeX, not raw LaTeX
+- [x] Code blocks show Prism syntax colors
+- [x] Table renders with borders
+- [x] `<script>alert('xss')</script>` in Markdown → does NOT execute
+- [x] Force a render error → ErrorBoundary shows fallback (not white screen)
+- [x] "Try Again" button resets ErrorBoundary and restores preview
+- [x] Scroll position preserved on typing updates
+- [x] Empty content shows placeholder text
+- [x] No console errors
+- [x] Git commit: `d31a030`
 
 ## Blocked On
 
-Nothing — ready to start Phase 5 (Live Preview + Error Boundary).
+Nothing — ready to start Phase 6 (PDF Export + Print Settings).
 
 ## Known Issues
 

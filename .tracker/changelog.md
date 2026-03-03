@@ -160,4 +160,46 @@
 
 ---
 
+## 2026-03-04 — Phase 5: Live Preview + Error Boundary
+
+### Conversation 6: Phase 5 Execution
+
+**What happened:**
+
+1. Implemented `src/components/Preview.jsx`:
+   - Renders parsed HTML via `dangerouslySetInnerHTML`
+   - Scroll position preservation across re-renders (stores `scrollTop` in a ref)
+   - Resets scroll to top when content is cleared
+   - Shows placeholder text ("Start writing Markdown…") when editor is empty
+2. Implemented `src/components/ErrorBoundary.jsx`:
+   - Class-based React error boundary wrapping `<Preview>`
+   - Catches render crashes, displays structured fallback UI (icon + title + error detail + "Try Again" button)
+   - `handleReset()` method clears error state to recover
+   - Logs caught errors to console for debugging
+3. Updated `src/App.jsx`:
+   - Replaced inline `dangerouslySetInnerHTML` with `<Preview>` component
+   - Wrapped `<Preview>` in `<ErrorBoundary>`
+   - Added isEmpty detection for empty content handling
+   - Added XSS test case (`<script>alert('xss')</script>`) to default content
+4. Enhanced `src/styles/preview.css`:
+   - Added `.error-fallback-inner`, `.error-fallback-icon`, `.error-fallback-title`, `.error-fallback-detail` styles
+5. Verified in browser:
+   - Headings, KaTeX math, Prism code blocks, tables all render correctly
+   - XSS script tag does NOT execute
+   - ErrorBoundary catches forced render errors, shows fallback, "Try Again" recovers
+   - Scroll position preserved during typing
+   - No console errors
+6. Git commit: `d31a030`
+
+**Key Decisions:**
+
+- Used ref-based scroll position tracking (`prevScrollRef`) rather than state to avoid unnecessary re-renders during scroll events.
+- ErrorBoundary includes a "Try Again" button for user-initiated recovery rather than requiring a full page reload.
+
+**Issues Found:**
+
+- None.
+
+---
+
 > **Update this file**: At the end of every conversation, append a new dated section with what was done, key decisions, and any issues found.

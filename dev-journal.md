@@ -16,3 +16,7 @@ pipeline is officially live. katex and prism were a bit of a shuffle—had to ma
 ### Mar 4, 2026 - 00:03
 
 okay THE EDITOR IS IN. codemirror 6 was honestly not as scary as i thought it'd be. the extension-based API is actually kinda clean once you get the mental model. had to hunt down `@codemirror/commands` cuz it wasn't installed as a transitive dep—wasted like 5 min wondering why `defaultKeymap` was undefined lol. but now we got line numbers, undo/redo, bracket matching, markdown highlighting, the whole thing. and the calm night theme looks SO GOOD in the editor. typed in 7500 words and it didn't even flinch, 43ms dispatch. the live preview updating as i type is super satisfying. the `pre` tag is dead, long live CodeMirror. 🎉
+
+### Mar 4, 2026 - 00:15
+
+phase 5 done and honestly this one felt quick. the preview component is basically a wrapper around dangerouslySetInnerHTML but with scroll preservation which was the tricky bit—used a ref to track scrollTop so it doesn't jump around when you're typing. the error boundary was fun to build, the fallback UI with the warning icon and "Try Again" button looks surprisingly polished for something you hope users never see lol. threw in an XSS test with a script tag and it just sits there doing nothing, which is exactly what we want. everything renders: math, code, tables, headings. no white screens. vibes are good. onto PDF export next 📄
