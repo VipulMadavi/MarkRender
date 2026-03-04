@@ -48,4 +48,4 @@ def main():
   return
 ```
 
-> Autosave kicks in **5 minutes** after you stop typing. Your work is safe. 🔒
+> Autosave kicks in **5 minutes** after you stop typing. Content clears when you close the tab. 🔒

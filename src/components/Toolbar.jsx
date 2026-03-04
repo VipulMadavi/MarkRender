@@ -19,6 +19,7 @@ import PrintSettings from "./PrintSettings";
  * @prop {Date|null} lastSaved        — timestamp of last autosave
  * @prop {boolean}  focusMode         — whether focus/zen mode is active
  * @prop {function} onToggleFocusMode — toggles focus/zen mode
+ * @prop {function} onNewDocument     — resets editor to default content
  */
 function Toolbar({
   title,
@@ -32,6 +33,7 @@ function Toolbar({
   lastSaved,
   focusMode,
   onToggleFocusMode,
+  onNewDocument,
 }) {
   // Human-readable view mode label for the toggle button
   const viewLabels = {
@@ -49,6 +51,45 @@ function Toolbar({
 
       {/* ── Centre controls ── */}
       <div className="toolbar-controls">
+        {/* ── New Document button ── */}
+        <button
+          id="btn-new-doc"
+          className="btn btn-ghost"
+          onClick={onNewDocument}
+          title="New document"
+          aria-label="Start a new document"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3 1h5l4 4v8H3V1z"
+              stroke="currentColor"
+              strokeWidth="1.3"
+              strokeLinejoin="round"
+              fill="none"
+            />
+            <path
+              d="M8 1v4h4"
+              stroke="currentColor"
+              strokeWidth="1.3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M6 8h2M7 7v2"
+              stroke="currentColor"
+              strokeWidth="1.3"
+              strokeLinecap="round"
+            />
+          </svg>
+          New
+        </button>
+
         <button
           id="btn-toggle-view"
           className="btn btn-ghost"

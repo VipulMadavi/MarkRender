@@ -2,7 +2,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { renderMarkdown } from "./markdown/parser";
 import { getStats } from "./utils/wordCount";
-import { loadContent } from "./utils/storage";
+import { loadContent, clearContent } from "./utils/storage";
 import { useAutosave } from "./hooks/useAutosave";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
 import { useScrollSync } from "./hooks/useScrollSync";
@@ -76,6 +76,17 @@ function App() {
     setShowPrintSettings(false);
   }, []);
 
+  // ── New Document handler ──
+  const handleNewDocument = useCallback(() => {
+    const confirmed = window.confirm(
+      "Start fresh? Your current content will be lost.",
+    );
+    if (confirmed) {
+      clearContent();
+      setMarkdown(DEFAULT_MARKDOWN);
+    }
+  }, []);
+
   // ── Focus editor handler ──
   const handleFocusEditor = useCallback(() => {
     editorRef.current?.focus();
@@ -140,6 +151,7 @@ function App() {
         lastSaved={lastSaved}
         focusMode={focusMode}
         onToggleFocusMode={handleToggleFocusMode}
+        onNewDocument={handleNewDocument}
       />
 
       <div className={mainClass}>
