@@ -87,7 +87,7 @@ function Toolbar({
               strokeLinecap="round"
             />
           </svg>
-          New
+          <span className="btn-label">New</span>
         </button>
 
         <button
@@ -124,7 +124,7 @@ function Toolbar({
                   fill="currentColor"
                 />
               </svg>
-              Split
+              <span className="btn-label">Split</span>
             </>
           )}
           {viewMode === "editor" && (
@@ -146,7 +146,7 @@ function Toolbar({
                   opacity="0.6"
                 />
               </svg>
-              Editor
+              <span className="btn-label">Editor</span>
             </>
           )}
           {viewMode === "preview" && (
@@ -167,7 +167,7 @@ function Toolbar({
                   fill="currentColor"
                 />
               </svg>
-              Preview
+              <span className="btn-label">Preview</span>
             </>
           )}
         </button>
@@ -212,7 +212,7 @@ function Toolbar({
               </>
             )}
           </svg>
-          {focusMode ? "Exit" : "Focus"}
+          <span className="btn-label">{focusMode ? "Exit" : "Focus"}</span>
         </button>
 
         {/* ── Export button + dropdown ── */}
@@ -246,7 +246,7 @@ function Toolbar({
                 strokeLinecap="round"
               />
             </svg>
-            Export
+            <span className="btn-label">Export</span>
           </button>
 
           <PrintSettings

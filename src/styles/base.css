@@ -514,10 +514,10 @@ body {
     flex-direction: column;
   }
 
-  /* On mobile, split = stacked 50/50 */
+  /* Fix split stacking — account for toolbar height */
   .main-content.view-split .editor-panel,
   .main-content.view-split .preview-panel {
-    height: 50vh;
+    height: calc(50vh - var(--toolbar-height) / 2);
     flex: none;
   }
 
@@ -526,12 +526,75 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .toolbar-brand {
-    max-width: 120px;
+  /* Compact toolbar */
+  .toolbar {
+    padding: 0 var(--space-m);
+    gap: var(--space-s);
   }
 
+  .toolbar-brand {
+    max-width: 120px;
+    font-size: 0.95rem;
+  }
+
+  /* Icon-only buttons — hide text labels */
+  .btn-label {
+    display: none;
+  }
+
+  .toolbar-controls .btn {
+    padding: var(--space-s);
+    gap: 0;
+  }
+
+  /* Hide word count and autosave text */
   .word-count {
     display: none;
+  }
+
+  .autosave-indicator {
+    font-size: var(--font-size-xs);
+  }
+
+  /* Responsive print settings panel */
+  .print-settings {
+    width: min(300px, calc(100vw - var(--space-xl)));
+  }
+}
+
+/* ── Extra-Small Screens ── */
+@media (max-width: 480px) {
+  .toolbar {
+    padding: 0 var(--space-s);
+    gap: var(--space-xs);
+  }
+
+  .toolbar-brand {
+    max-width: 80px;
+    font-size: 0.85rem;
+  }
+
+  .toolbar-controls .btn {
+    padding: var(--space-xs);
+  }
+
+  .toolbar-controls .btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Hide autosave text too */
+  .autosave-indicator {
+    display: none;
+  }
+
+  /* Full-width print settings */
+  .print-settings {
+    position: fixed;
+    top: var(--toolbar-height);
+    right: var(--space-s);
+    left: var(--space-s);
+    width: auto;
   }
 }
 
