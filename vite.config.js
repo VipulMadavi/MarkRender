@@ -5,4 +5,23 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: './',
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split heavy vendor libraries into separate chunks
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-codemirror': [
+            '@codemirror/commands',
+            '@codemirror/lang-markdown',
+            '@codemirror/language',
+            '@codemirror/state',
+            '@codemirror/view',
+          ],
+          'vendor-katex': ['katex'],
+          'vendor-markdown': ['markdown-it', 'prismjs'],
+        },
+      },
+    },
+  },
 })
