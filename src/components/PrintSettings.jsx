@@ -29,15 +29,21 @@ const MARGINS = [
 function PrintSettings({ metadata, isOpen, onClose }) {
   const [pageSize, setPageSize] = useState("A4");
   const [margins, setMargins] = useState("2cm 2.5cm");
-  const [title, setTitle] = useState("");
+  // Initialize title from metadata; user can override via the input
+  const [title, setTitle] = useState(() => metadata?.title || "");
+  // Track the last metadata title to detect external changes
+  const prevMetaTitleRef = useRef(metadata?.title);
   const panelRef = useRef(null);
 
-  // Auto-fill title from YAML frontmatter when metadata changes
-  useEffect(() => {
+  // Sync title only when metadata.title actually changes from an external source
+  // (not on every render). This avoids setState-in-effect anti-pattern by using
+  // a ref comparison instead of depending on metadata?.title directly.
+  if (metadata?.title !== prevMetaTitleRef.current) {
+    prevMetaTitleRef.current = metadata?.title;
     if (metadata?.title) {
       setTitle(metadata.title);
     }
-  }, [metadata?.title]);
+  }
 
   // Close panel on click outside
   useEffect(() => {

@@ -1,12 +1,12 @@
-// useAutosave.js — Debounced localStorage autosave hook (Phase 7)
+// useAutosave.js — Debounced sessionStorage autosave hook (Phase 7)
 import { useEffect, useRef, useState, useCallback } from "react";
 import { debounce } from "../utils/debounce";
 import { saveContent } from "../utils/storage";
 
-const AUTOSAVE_DELAY_MS = 5 * 60 * 1000; // 5 minute debounce
+const AUTOSAVE_DELAY_MS = 2000; // 2 second debounce
 
 /**
- * Autosaves `content` to localStorage after 2s of inactivity.
+ * Autosaves content to sessionStorage after 2s of inactivity.
  * Warns the user before leaving the page if there are unsaved changes.
  *
  * @param {string} content — the markdown string to persist
@@ -27,19 +27,22 @@ export function useAutosave(content) {
     dirtyRef.current = true; // content changed, mark dirty
   }, [content]);
 
-  // Build the debounced save function once
-  const debouncedSave = useRef(
-    debounce(() => {
+  // Persist the debounced function in a ref so it's created once
+  const debouncedSaveRef = useRef(null);
+
+  // Initialize the debounced save in an effect (avoids ref access during render)
+  useEffect(() => {
+    debouncedSaveRef.current = debounce(() => {
       saveContent(contentRef.current);
-      dirtyRef.current = false; // saved, mark clean
+      dirtyRef.current = false;
       setLastSaved(new Date());
-    }, AUTOSAVE_DELAY_MS),
-  ).current;
+    }, AUTOSAVE_DELAY_MS);
+  }, []);
 
   // Trigger the debounced save whenever content changes
   useEffect(() => {
-    debouncedSave();
-  }, [content, debouncedSave]);
+    debouncedSaveRef.current?.();
+  }, [content]);
 
   // Expose an immediate save for Ctrl+S
   const triggerSave = useCallback(() => {

@@ -1,5 +1,5 @@
 // App.jsx — Full app layout with scroll sync, focus mode (Phase 7 + Phase 8)
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { renderMarkdown } from "./markdown/parser";
 import { getStats } from "./utils/wordCount";
 import { loadContent, clearContent } from "./utils/storage";
@@ -17,7 +17,7 @@ import DEFAULT_MARKDOWN from "./content/default.md?raw";
 const VIEW_CYCLE = ["split", "editor", "preview"];
 
 function App() {
-  // ── Restore from localStorage or use default ──
+  // ── Restore from sessionStorage or use default ──
   const [markdown, setMarkdown] = useState(() => {
     return loadContent() ?? DEFAULT_MARKDOWN;
   });
@@ -35,22 +35,23 @@ function App() {
   const editorRef = useRef(null);
   const previewRef = useRef(null);
 
-  // ── Derived state ──
-  const { html, metadata } = renderMarkdown(markdown);
-  const stats = getStats(markdown);
+  // ── Derived state (memoized — only re-computes when markdown changes) ──
+  const { html, metadata } = useMemo(() => renderMarkdown(markdown), [markdown]);
+  const stats = useMemo(() => getStats(markdown), [markdown]);
   const isEmpty = markdown.trim().length === 0;
 
   // ── Autosave hook ──
   const { lastSaved, triggerSave } = useAutosave(markdown);
 
-  // ── Scroll sync — only active in split view and not in focus mode ──
+  // ── Scroll sync — use callback ref to capture preview DOM element ──
   const [previewEl, setPreviewEl] = useState(null);
 
-  useEffect(() => {
-    // Get the DOM element once preview mounts
-    const el = previewRef.current?.getElement?.();
-    setPreviewEl(el || null);
-  });
+  const previewRefCallback = useCallback((node) => {
+    previewRef.current = node;
+    // Acquire the DOM element from the imperative handle
+    const el = node?.getElement?.() || null;
+    setPreviewEl(el);
+  }, []);
 
   useScrollSync(editorRef, previewEl, viewMode === "split" && !focusMode);
 
@@ -162,7 +163,7 @@ function App() {
 
         {/* ── Preview panel ── */}
         <ErrorBoundary>
-          <Preview ref={previewRef} html={html} isEmpty={isEmpty} />
+          <Preview ref={previewRefCallback} html={html} isEmpty={isEmpty} />
         </ErrorBoundary>
       </div>
 

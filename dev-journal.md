@@ -36,3 +36,16 @@ phase 8 done and this one was honestly pretty fun. the scroll sync was the part 
 ### Mar 4, 2026 - 01:38
 
 AND WE'RE DONE. PHASE 9. THE LAST ONE. `npm run build` ran clean, 159 modules, no errors. loaded it up in the preview server and everything just... works. like exactly the same as dev mode which is apparently what vite is supposed to do but still, it feels good to see it. the bundle is kinda chunky at 1.17MB (394KB gzipped) but like, that's katex + prism + codemirror all in one file. could do code splitting later but honestly for an MVP? ship it. typed some markdown, saw the preview update, the autosave kicked in, toggled views, math rendered beautifully. no console errors. it's real. it's a real app. nine phases, somewhere around 9 hours total across like a million conversations, and we have a working markdown-to-pdf editor with a gorgeous dark theme. i'm lowkey proud of this one ngl. time to tag it and call it v0.1. 🚀🎉
+
+
+### Jun 30, 2026 - 23:10
+
+finally came back to fix the P0 stuff from that audit report. the XSS thing was honestly embarrassing—`html: true` with no sanitizer, basically begging for trouble. added DOMPurify and configured it to still allow katex's mathml tags so math rendering doesn't break. also memoized the render pipeline with useMemo... can't believe renderMarkdown was running on EVERY re-render, not just when markdown changed. like every time you toggled focus mode or whatever, the entire katex+prism+markdownit pipeline would fire. yikes. 
+
+the react 19 lint errors were the annoying part. the useAutosave one was tricky—eslint's `react-hooks/refs` rule is super strict about ref access in useMemo closures even though the closure only executes async. ended up using an effect-initialized ref pattern which feels a bit weird but satisfies the linter. also swapped the preview element acquisition from a dep-free useEffect (lol) to a callback ref which is way cleaner. oh and the autosave was actually set to 5 MINUTES not 2 seconds like the comments said?? fixed that too. eslint now passes clean: 0 errors 0 warnings. feels good man 🛡️
+
+### Jun 30, 2026 - 23:35
+
+P1 time. split the mega bundle into chunks—react, codemirror, katex, markdown-it+prism all get their own files now. went from one 1.2MB chunk to 5 separate ones, biggest is codemirror at 512KB which is still kinda chonky but at least the browser can cache them independently. also nuked `@codemirror/theme-one-dark` from dependencies since it was literally never imported anywhere lol. dead weight.
+
+added `prefers-reduced-motion` media query that kills all animations and transitions for users who need it. the background gradient animation, toolbar entrance, print settings dropdown, autosave pulse—all disabled. felt good to add that, accessibility shouldn't be an afterthought. now eslint is still clean, build passes, chunks are split. onto the next thing whenever i get the green light 🧩
